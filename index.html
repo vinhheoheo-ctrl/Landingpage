@@ -76,7 +76,7 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .lightbox-trigger { cursor: zoom-in; }
 
-    /* CSS Carousel thuần mượt mà */
+    /* CSS Carousel */
     .carousel-container {
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -87,22 +87,20 @@
       flex-shrink: 0;
     }
 
-    /* ==================== ĐẶC TRỊ XUẤT BẢN PDF / PRINT TO PDF ==================== */
+    /* ĐẶC TRỊ XUẤT BẢN PDF / PRINT TO PDF */
     @media print {
-      header, #mobile-detail-bar, .no-print, button {
+      header, #mobile-detail-bar, .no-print, button, .carousel-nav-btn {
         display: none !important;
       }
       body {
         background-color: #ffffff !important;
         color: #000000 !important;
       }
-      /* Bung mở các tab ẩn để PDF hiển thị toàn bộ hình ảnh thực tế, 3D và Pano */
       #view-fam-3d, #view-fam-pano, #view-trip-3d, #view-trip-pano {
         display: block !important;
         margin-top: 2rem !important;
         page-break-inside: avoid;
       }
-      /* Trải phẳng toàn bộ Carousel trong các khối tiện ích thành lưới ảnh rõ ràng */
       .carousel-container {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
@@ -125,7 +123,7 @@
   <header class="sticky top-0 z-40 bg-brand-50/95 backdrop-blur-md border-b border-brand-200/70 transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 h-16 sm:h-20 flex items-center justify-between">
       <a href="#" class="flex items-center space-x-2">
-        <img src="logo.png" alt="Logo Bcons City Hotel" class="h-8 sm:h-11 md:h-12 w-auto object-contain">
+        <img src="assets/logo.png" alt="Logo Bcons City Hotel" class="h-8 sm:h-11 md:h-12 w-auto object-contain">
       </a>
       
       <nav class="hidden lg:flex items-center space-x-8 text-base font-medium text-brand-900/80">
@@ -147,12 +145,12 @@
     </div>
   </header>
 
-  <!-- ==================== HERO SECTION (Ảnh 4.png) ==================== -->
+  <!-- ==================== HERO SECTION ==================== -->
   <section class="relative pt-3 sm:pt-6 md:pt-8 pb-8 sm:pb-12 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-brand-200/80 custom-shadow h-[430px] sm:h-[500px] md:h-[540px] w-full flex items-end group">
         <img 
-          src="4.png" 
+          src="assets/4.png" 
           alt="Sảnh lễ tân đón tiếp sang trọng tại Bcons City Hotel" 
           class="absolute inset-0 w-full h-full object-cover object-center lightbox-trigger"
           onclick="openLightbox(this.src, this.alt)"
@@ -183,7 +181,7 @@
     </div>
   </section>
 
-  <!-- ==================== SƠ ĐỒ TIỆN ÍCH NỘI KHU (6 CALL-OUT MỚI) ==================== -->
+  <!-- ==================== SƠ ĐỒ TIỆN ÍCH NỘI KHU ==================== -->
   <section id="toan-khu" class="py-10 sm:py-16 md:py-24 bg-brand-50 border-y border-brand-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       
@@ -193,7 +191,7 @@
           Hệ Thống Tiện Ích Đẳng Cấp Tại Bcons City
         </h2>
         <p class="mt-1.5 sm:mt-2 text-xs sm:text-base text-brand-900/75 leading-relaxed">
-          Chạm vào các tiện ích bên dưới để định vị điểm phục vụ và xem chi tiết từng góc trải nghiệm.
+          Chạm vào các tiện ích bên dưới để định vị điểm phục vụ và xem chi tiết từng góc trải nghiệm[cite: 6].
         </p>
       </div>
 
@@ -222,52 +220,44 @@
         </button>
       </div>
 
-      <!-- KHUNG BẢN ĐỒ TOÀN CẢNH: TRÊN MOBILE FOCUS THÁP ĐÔI -->
+      <!-- KHUNG BẢN ĐỒ TOÀN CẢNH (assets/toan-khu.png) -->
       <div 
         id="interactive-callout-container"
-        class="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-brand-200/90 custom-shadow bg-brand-900 h-[400px] sm:h-auto sm:aspect-[16/9] w-full select-none"
+        class="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-brand-200/90 custom-shadow bg-stone-900 h-[400px] sm:h-auto sm:aspect-[16/9] w-full select-none"
       >
         <img 
-          src="toan-khu.png" 
+          src="assets/toan-khu.png" 
           alt="Toàn cảnh thực tế Bcons City" 
           class="w-full h-full object-cover transition-all duration-700 scale-[1.7] origin-[72%_62%] sm:scale-100 sm:origin-center"
         >
 
-        <!-- LỚP TIA SVG TRÊN DESKTOP KẾT NỐI CHUẨN XÁC THEO HÌNH VẼ -->
+        <!-- LỚP TIA SVG TRÊN DESKTOP -->
         <svg class="hidden sm:block absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 1000 562" preserveAspectRatio="none">
-          <!-- 1. Co.opmart (Dời hẳn sang góc phải) -->
           <g id="line-coop" class="callout-line transition-all duration-300">
             <line x1="785" y1="500" x2="720" y2="520" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" />
             <circle cx="785" cy="500" r="5" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
           </g>
-          <!-- 2. Khách sạn -->
           <g id="line-hotel" class="callout-line transition-all duration-300">
             <line x1="600" y1="290" x2="575" y2="225" stroke="#059669" stroke-width="2.5" stroke-linecap="round" />
             <circle cx="600" cy="290" r="5" fill="#FFFFFF" stroke="#059669" stroke-width="2.5"/>
           </g>
-          <!-- 3. GS25 -->
           <g id="line-gs25" class="callout-line transition-all duration-300">
             <line x1="485" y1="315" x2="455" y2="350" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round" />
             <circle cx="485" cy="315" r="5" fill="#FFFFFF" stroke="#0284C7" stroke-width="2.5"/>
           </g>
-          <!-- 4. Bcons Mall -->
           <g id="line-mall" class="callout-line transition-all duration-300">
             <line x1="582" y1="368" x2="540" y2="435" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" />
             <circle cx="582" cy="368" r="5" fill="#FFFFFF" stroke="#D97706" stroke-width="2.5"/>
           </g>
-          <!-- 5. Mee Thai (Mũi tên đỏ từ khối kết nối 2 tháp lên trên) -->
           <g id="line-meethai" class="callout-line transition-all duration-300">
             <line x1="662" y1="340" x2="705" y2="295" stroke="#E11D48" stroke-width="3" stroke-linecap="round" />
             <circle cx="662" cy="340" r="6" fill="#FFFFFF" stroke="#E11D48" stroke-width="3"/>
           </g>
-          <!-- 6. Công viên (Khoảng trống trung tâm) -->
           <g id="line-park" class="callout-line transition-all duration-300">
             <line x1="655" y1="410" x2="695" y2="435" stroke="#65A30D" stroke-width="2.5" stroke-linecap="round" />
             <circle cx="655" cy="410" r="5" fill="#FFFFFF" stroke="#65A30D" stroke-width="2.5"/>
           </g>
         </svg>
-
-        <!-- ==================== CÁC ĐIỂM CALLOUT ==================== -->
 
         <!-- 🏨 KHÁCH SẠN BCONS CITY -->
         <div 
@@ -284,17 +274,16 @@
               <span class="text-[9px] uppercase font-extrabold tracking-wider text-emerald-400">KHÁCH SẠN LƯU TRÚ</span>
             </div>
           </div>
-          <!-- Popup Carousel Preview -->
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-emerald-500 pointer-events-none z-50">
             <div class="relative h-32 rounded-xl overflow-hidden mb-2">
-              <img src="4.png" alt="Khách sạn Bcons City" class="w-full h-full object-cover">
+              <img src="assets/4.png" alt="Khách sạn Bcons City" class="w-full h-full object-cover">
             </div>
             <h4 class="font-serif font-bold text-sm text-brand-900">Bcons City Hotel</h4>
             <p class="text-[11px] text-brand-900/75 mt-0.5 leading-snug">Sảnh lễ tân đón tiếp sang trọng, thang máy thẻ từ riêng biệt và an ninh 24/7.</p>
           </div>
         </div>
 
-        <!-- 🍜 MEE THAI (ẨM THỰC THÁI LAN) -->
+        <!-- 🍜 MEE THAI -->
         <div 
           id="item-meethai" 
           class="callout-item absolute top-[36%] sm:top-[44%] left-[68%] sm:left-[72%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
@@ -309,7 +298,6 @@
               <span class="text-[9px] uppercase font-extrabold tracking-wider text-rose-400">NHÀ HÀNG ẨM THỰC</span>
             </div>
           </div>
-          <!-- Popup Preview -->
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-rose-500 pointer-events-none z-50">
             <div class="relative h-32 rounded-xl overflow-hidden mb-2">
               <img src="assets/mee-thai/mee-thai-1.png" alt="Nhà hàng Mee Thai" class="w-full h-full object-cover">
@@ -334,7 +322,6 @@
               <span class="text-[9px] uppercase font-extrabold tracking-wider text-lime-400">KHÔNG GIAN XANH</span>
             </div>
           </div>
-          <!-- Popup Preview -->
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-lime-600 pointer-events-none z-50">
             <div class="relative h-32 rounded-xl overflow-hidden mb-2">
               <img src="assets/park/park-1.jpg" alt="Công viên Bcons City" class="w-full h-full object-cover">
@@ -344,7 +331,7 @@
           </div>
         </div>
 
-        <!-- 🛒 CO.OPMART (DỜI HẲN SANG PHẢI) -->
+        <!-- 🛒 CO.OPMART -->
         <div 
           id="item-coop" 
           class="callout-item absolute top-[82%] sm:top-[90%] left-[78%] sm:left-[76%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
@@ -359,10 +346,9 @@
               <span class="text-[9px] uppercase font-extrabold tracking-wider text-red-400">SIÊU THỊ TIÊU DÙNG</span>
             </div>
           </div>
-          <!-- Popup Preview -->
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-red-500 pointer-events-none z-50">
             <div class="relative h-32 rounded-xl overflow-hidden mb-2">
-              <img src="coopmart.jpg" alt="Siêu thị Co.opmart" class="w-full h-full object-cover">
+              <img src="assets/coopmart.jpg" alt="Siêu thị Co.opmart" class="w-full h-full object-cover">
             </div>
             <h4 class="font-serif font-bold text-sm text-brand-900">Siêu Thị Co.opmart</h4>
             <p class="text-[11px] text-brand-900/75 mt-0.5 leading-snug">Thực phẩm tươi sạch, rau củ quả quê nhà và nhu yếu phẩm ngay khối đế.</p>
@@ -384,13 +370,12 @@
               <span class="text-[9px] uppercase font-extrabold tracking-wider text-amber-400">TTTM 3 TẦNG</span>
             </div>
           </div>
-          <!-- Popup Preview -->
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-amber-500 pointer-events-none z-50">
             <div class="relative h-32 rounded-xl overflow-hidden mb-2">
               <img src="assets/mall/mall-1.jpg" alt="TTTM Bcons Mall" class="w-full h-full object-cover">
             </div>
             <h4 class="font-serif font-bold text-sm text-brand-900">Bcons City Mall</h4>
-            <p class="text-[11px] text-brand-900/75 mt-0.5 leading-snug">Phức hợp mua sắm, ẩm thực gia đình và dịch vụ sầm uất ngay mặt tiền.</p>
+            <p class="text-[11px] text-brand-900/75 mt-0.5 leading-snug">Phức hợp nhà hàng, ẩm thực gia đình, thời trang và không gian mua sắm sầm uất.</p>
           </div>
         </div>
 
@@ -409,7 +394,6 @@
               <span class="text-[9px] uppercase font-extrabold tracking-wider text-sky-400">CỬA HÀNG TIỆN LỢI</span>
             </div>
           </div>
-          <!-- Popup Preview -->
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-sky-500 pointer-events-none z-50">
             <div class="relative h-32 rounded-xl overflow-hidden mb-2">
               <img src="assets/location/gs25.jpg" alt="GS25 24/7" class="w-full h-full object-cover">
@@ -431,65 +415,59 @@
 
       </div>
 
-      <!-- ==================== CỤM CAROUSEL TIỆN ÍCH CHI TIẾT (ĐƯỢC BUNG RA KHI IN PDF) ==================== -->
+      <!-- ==================== CỤM CAROUSEL TIỆN ÍCH CHI TIẾT ==================== -->
       <div class="mt-10 sm:mt-14 space-y-10 sm:space-y-14">
         
         <!-- 1. CAROUSEL HỒ BƠI & PHÒNG GYM -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           <!-- Cụm Hồ Bơi -->
           <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <div>
-                  <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Dưỡng Sinh & Thư Giãn</span>
-                  <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900">Hồ Bơi Tràn Bờ Xanh Mát</h3>
-                </div>
-                <div class="flex items-center space-x-1.5 no-print">
-                  <button onclick="slideCarousel('carousel-pool', -1)" class="w-8 h-8 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 transition text-sm">‹</button>
-                  <button onclick="slideCarousel('carousel-pool', 1)" class="w-8 h-8 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 transition text-sm">›</button>
-                </div>
-              </div>
-              <p class="text-xs sm:text-sm text-brand-900/75 mb-4">Mặt nước trong lành, sàn gỗ tắm nắng và ghế nghỉ ngơi yên tĩnh giữa khuôn viên xanh.</p>
+            <div class="mb-3">
+              <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Dưỡng Sinh & Thư Giãn</span>
+              <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900">Hồ Bơi Tràn Bờ Xanh Mát</h3>
+              <p class="text-xs sm:text-sm text-brand-900/75 mt-1">Mặt nước trong lành, sàn gỗ tắm nắng và ghế nghỉ ngơi yên tĩnh giữa khuôn viên xanh.</p>
             </div>
-            <!-- Slider -->
-            <div id="carousel-pool" class="carousel-container flex gap-3 overflow-x-auto no-scrollbar pb-1">
-              <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative group flex-shrink-0">
-                <img src="assets/gym-pool/pool-1.jpg" alt="Hồ bơi Bcons City - Góc 1" class="w-full h-full object-cover lightbox-trigger group-hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative group flex-shrink-0">
-                <img src="assets/gym-pool/pool-2.jpg" alt="Hồ bơi Bcons City - Góc 2" class="w-full h-full object-cover lightbox-trigger group-hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative group flex-shrink-0">
-                <img src="assets/gym-pool/pool-3.jpg" alt="Hồ bơi Bcons City - Góc 3" class="w-full h-full object-cover lightbox-trigger group-hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+            
+            <div class="relative group/box overflow-hidden rounded-xl">
+              <button onclick="slideCarousel('carousel-pool', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="slideCarousel('carousel-pool', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+
+              <div id="carousel-pool" class="carousel-container flex gap-3 overflow-x-auto no-scrollbar">
+                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/gym-pool/pool-1.jpg" alt="Hồ bơi Bcons City - Góc 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/gym-pool/pool-2.jpg" alt="Hồ bơi Bcons City - Góc 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/gym-pool/pool-3.jpg" alt="Hồ bơi Bcons City - Góc 3" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Cụm Phòng Gym -->
           <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-3">
-                <div>
-                  <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Rèn Luyện Thể Lực</span>
-                  <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900">Phòng Gym Đa Năng</h3>
-                </div>
-                <div class="flex items-center space-x-1.5 no-print">
-                  <button onclick="slideCarousel('carousel-gym', -1)" class="w-8 h-8 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 transition text-sm">‹</button>
-                  <button onclick="slideCarousel('carousel-gym', 1)" class="w-8 h-8 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 transition text-sm">›</button>
-                </div>
-              </div>
-              <p class="text-xs sm:text-sm text-brand-900/75 mb-4">Trang thiết bị hiện đại, máy đi bộ ngắm trọn công viên giúp duy trì sức khỏe dẻo dai.</p>
+            <div class="mb-3">
+              <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Rèn Luyện Thể Lực</span>
+              <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900">Phòng Gym Đa Năng</h3>
+              <p class="text-xs sm:text-sm text-brand-900/75 mt-1">Trang thiết bị hiện đại, máy đi bộ ngắm trọn công viên giúp duy trì sức khỏe dẻo dai.</p>
             </div>
-            <!-- Slider -->
-            <div id="carousel-gym" class="carousel-container flex gap-3 overflow-x-auto no-scrollbar pb-1">
-              <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative group flex-shrink-0">
-                <img src="assets/gym-pool/gym-1.png" alt="Phòng Gym Bcons City - Không gian 1" class="w-full h-full object-cover lightbox-trigger group-hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative group flex-shrink-0">
-                <img src="assets/gym-pool/gym-2.png" alt="Phòng Gym Bcons City - Không gian 2" class="w-full h-full object-cover lightbox-trigger group-hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative group flex-shrink-0">
-                <img src="assets/gym-pool/gym-3.png" alt="Phòng Gym Bcons City - Thiết bị tập" class="w-full h-full object-cover lightbox-trigger group-hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+            
+            <div class="relative group/box overflow-hidden rounded-xl">
+              <button onclick="slideCarousel('carousel-gym', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="slideCarousel('carousel-gym', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+
+              <div id="carousel-gym" class="carousel-container flex gap-3 overflow-x-auto no-scrollbar">
+                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/gym-pool/gym-1.png" alt="Phòng Gym Bcons City - Không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/gym-pool/gym-2.png" alt="Phòng Gym Bcons City - Không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/gym-pool/gym-3.png" alt="Phòng Gym Bcons City - Thiết bị tập" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
+                </div>
               </div>
             </div>
           </div>
@@ -500,78 +478,78 @@
           
           <!-- Mee Thai Carousel -->
           <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">Ẩm Thực Mee Thai</h4>
-                <div class="flex items-center space-x-1 no-print">
-                  <button onclick="slideCarousel('carousel-meethai', -1)" class="w-7 h-7 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 text-xs">‹</button>
-                  <button onclick="slideCarousel('carousel-meethai', 1)" class="w-7 h-7 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 text-xs">›</button>
-                </div>
-              </div>
-              <p class="text-xs text-brand-900/75 mb-3 leading-relaxed">Không gian nhà hàng sang trọng với hương vị lẩu Thái và ẩm thực gia đình ấm cúng.</p>
+            <div class="mb-3">
+              <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">Ẩm Thực Mee Thai</h4>
+              <p class="text-xs text-brand-900/75 mt-0.5 leading-relaxed">Không gian nhà hàng sang trọng với hương vị lẩu Thái và món ngon ấm cúng.</p>
             </div>
-            <div id="carousel-meethai" class="carousel-container flex gap-2.5 overflow-x-auto no-scrollbar">
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mee-thai/mee-thai-1.png" alt="Mee Thai không gian 1" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mee-thai/mee-thai-2.png" alt="Mee Thai không gian 2" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mee-thai/mee-thai-3.jpg" alt="Mee Thai món ăn" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mee-thai/mee-thai-4.jpg" alt="Mee Thai bài trí" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
+            
+            <div class="relative group/box overflow-hidden rounded-xl">
+              <button onclick="slideCarousel('carousel-meethai', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="slideCarousel('carousel-meethai', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+
+              <div id="carousel-meethai" class="carousel-container flex gap-2 overflow-x-auto no-scrollbar">
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mee-thai/mee-thai-1.png" alt="Mee Thai không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mee-thai/mee-thai-2.png" alt="Mee Thai không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mee-thai/mee-thai-3.jpg" alt="Mee Thai món ăn" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mee-thai/mee-thai-4.jpg" alt="Mee Thai bài trí" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Bcons Mall Carousel -->
           <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">TTTM Bcons Mall</h4>
-                <div class="flex items-center space-x-1 no-print">
-                  <button onclick="slideCarousel('carousel-mall', -1)" class="w-7 h-7 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 text-xs">‹</button>
-                  <button onclick="slideCarousel('carousel-mall', 1)" class="w-7 h-7 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 text-xs">›</button>
-                </div>
-              </div>
-              <p class="text-xs text-brand-900/75 mb-3 leading-relaxed">3 tầng thương mại quy tụ chuỗi cà phê, ẩm thực, mua sắm và rạp chiếu phim tiện lợi.</p>
+            <div class="mb-3">
+              <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">TTTM Bcons Mall</h4>
+              <p class="text-xs text-brand-900/75 mt-0.5 leading-relaxed">3 tầng thương mại quy tụ chuỗi mua sắm, cà phê và ẩm thực gia đình tiện lợi.</p>
             </div>
-            <div id="carousel-mall" class="carousel-container flex gap-2.5 overflow-x-auto no-scrollbar">
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mall/mall-1.jpg" alt="Bcons Mall - Mặt tiền sảnh" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mall/mall-2.jpg" alt="Bcons Mall - Khu mua sắm" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/mall/mall-3.jpg" alt="Bcons Mall - Hành lang thương mại" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
+            
+            <div class="relative group/box overflow-hidden rounded-xl">
+              <button onclick="slideCarousel('carousel-mall', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="slideCarousel('carousel-mall', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+
+              <div id="carousel-mall" class="carousel-container flex gap-2 overflow-x-auto no-scrollbar">
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mall/mall-1.jpg" alt="Bcons Mall - Mặt tiền sảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mall/mall-2.jpg" alt="Bcons Mall - Khu mua sắm" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/mall/mall-3.jpg" alt="Bcons Mall - Hành lang thương mại" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Công Viên Carousel -->
           <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">Công Viên Cây Xanh</h4>
-                <div class="flex items-center space-x-1 no-print">
-                  <button onclick="slideCarousel('carousel-park', -1)" class="w-7 h-7 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 text-xs">‹</button>
-                  <button onclick="slideCarousel('carousel-park', 1)" class="w-7 h-7 rounded-full border border-brand-200 flex items-center justify-center hover:bg-brand-100 text-xs">›</button>
-                </div>
-              </div>
-              <p class="text-xs text-brand-900/75 mb-3 leading-relaxed">Không gian dạo bộ thoáng đãng ngập tràn sắc xanh, thích hợp tập dưỡng sinh mỗi sáng.</p>
+            <div class="mb-3">
+              <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">Công Viên Cây Xanh</h4>
+              <p class="text-xs text-brand-900/75 mt-0.5 leading-relaxed">Không gian dạo bộ rợp bóng mát, ghế đá thư giãn và thảm cỏ xanh trong lành.</p>
             </div>
-            <div id="carousel-park" class="carousel-container flex gap-2.5 overflow-x-auto no-scrollbar">
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/park/park-1.jpg" alt="Công viên xanh - Góc dạo bộ" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/park/park-2.jpg" alt="Công viên xanh - Cụm tiểu cảnh" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
-              </div>
-              <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                <img src="assets/park/park-3.jpg" alt="Công viên xanh - Ghế nghỉ thư thái" class="w-full h-full object-cover lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
+            
+            <div class="relative group/box overflow-hidden rounded-xl">
+              <button onclick="slideCarousel('carousel-park', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="slideCarousel('carousel-park', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+
+              <div id="carousel-park" class="carousel-container flex gap-2 overflow-x-auto no-scrollbar">
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/park/park-1.jpg" alt="Công viên xanh - Góc dạo bộ" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/park/park-2.jpg" alt="Công viên xanh - Cụm tiểu cảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
+                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                  <img src="assets/park/park-3.jpg" alt="Công viên xanh - Ghế nghỉ thư thái" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
+                </div>
               </div>
             </div>
           </div>
@@ -583,7 +561,7 @@
     </div>
   </section>
 
-  <!-- ==================== CĂN HỘ 1: FAMILY (assets/fam/...) ==================== -->
+  <!-- ==================== CĂN HỘ 1: FAMILY (ĐỦ 5 ẢNH 1, 2, 4, 5, 6) ==================== -->
   <section id="can-ho-family" class="py-12 sm:py-18 md:py-24 bg-brand-100/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       
@@ -600,7 +578,7 @@
       <!-- Tab Buttons Family -->
       <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2.5 mb-4 sm:mb-5 no-print">
         <button onclick="switchView('fam', 'real')" id="tab-fam-real" class="flex-shrink-0 px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-brand-900 tab-active transition">
-          Ảnh Thực Tế
+          Ảnh Thực Tế (5 Góc Chụp)
         </button>
         <button onclick="switchView('fam', '3d')" id="tab-fam-3d" class="flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-brand-200 bg-brand-50 text-brand-900 hover:border-brand-900 transition">
           Phối Cảnh 3D Bố Trí Căn Hộ
@@ -610,43 +588,72 @@
         </button>
       </div>
 
-      <!-- Tab Thực Tế Family -->
-      <div id="view-fam-real" class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
-        <div class="md:col-span-8 rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
-          <img 
-            src="assets/fam/fam-4.png" 
-            alt="Phòng khách và bàn ăn gia đình" 
-            class="w-full h-[240px] sm:h-[360px] md:h-[460px] object-cover lightbox-trigger group-hover:scale-102 transition duration-500"
-            onclick="openLightbox(this.src, this.alt)"
-          >
-          <div class="p-3.5 sm:p-6 bg-brand-50">
+      <!-- Tab Thực Tế Family: Dùng Đủ 5 Ảnh (fam-4 làm tâm điểm, fam-1, fam-2, fam-5, fam-6) -->
+      <div id="view-fam-real" class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+        <!-- ẢNH LỚN TÂM ĐIỂM: PHÒNG KHÁCH (fam-4.png) -->
+        <div class="lg:col-span-7 rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group flex flex-col justify-between">
+          <div class="relative overflow-hidden h-[260px] sm:h-[380px] lg:h-[430px]">
+            <img 
+              src="assets/fam/fam-4.png" 
+              alt="Phòng khách và bàn ăn gia đình" 
+              class="w-full h-full object-cover lightbox-trigger group-hover:scale-102 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+          </div>
+          <div class="p-4 sm:p-5 bg-brand-50 border-t border-brand-200/60">
             <h3 class="font-serif font-semibold text-base sm:text-xl text-brand-900">Khu vực sinh hoạt chung & Bàn ăn ấm cúng</h3>
             <p class="text-brand-900/70 text-xs sm:text-sm mt-1">Sofa nệm êm ái, bàn ăn gia đình gỗ tự nhiên và TV lớn, ánh sáng ban ngày tràn ngập.</p>
           </div>
         </div>
-        <div class="md:col-span-4 flex flex-col gap-4 sm:gap-6">
-          <div class="rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
-            <img 
-              src="assets/fam/fam-5.png" 
-              alt="Bếp chữ L tiện nghi" 
-              class="w-full h-36 sm:h-48 md:h-52 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
-              onclick="openLightbox(this.src, this.alt)"
-            >
-            <div class="p-3 sm:p-4 bg-brand-50">
-              <h4 class="font-serif font-semibold text-xs sm:text-base text-brand-900">Bếp nấu chữ L khép kín</h4>
-              <p class="text-[11px] sm:text-xs text-brand-900/70 mt-0.5">Bếp từ an toàn, tủ lạnh lớn và bồn rửa đôi sạch sẽ.</p>
-            </div>
-          </div>
-          <div class="rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+
+        <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 (fam-1, fam-2, fam-5, fam-6) -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
+          <!-- Ảnh fam-1.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/fam/fam-1.png" 
-              alt="Không gian phòng ngủ tiện nghi" 
-              class="w-full h-36 sm:h-48 md:h-52 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              alt="Phòng ngủ chính căn Family" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
               onclick="openLightbox(this.src, this.alt)"
             >
-            <div class="p-3 sm:p-4 bg-brand-50">
-              <h4 class="font-serif font-semibold text-xs sm:text-base text-brand-900">Không gian nghỉ ngơi yên tĩnh</h4>
-              <p class="text-[11px] sm:text-xs text-brand-900/70 mt-0.5">Bố trí 1 giường đôi và 1 giường đơn nệm dày cao cấp, cửa sổ đón gió tự nhiên.</p>
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">1. Giường Đôi Êm Ái</h4>
+            </div>
+          </div>
+          <!-- Ảnh fam-2.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+            <img 
+              src="assets/fam/fam-2.png" 
+              alt="Góc giường đơn tiện nghi" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">2. Giường Đơn Riêng</h4>
+            </div>
+          </div>
+          <!-- Ảnh fam-5.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+            <img 
+              src="assets/fam/fam-5.png" 
+              alt="Khu bếp nấu chữ L" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">3. Bếp Nấu Chữ L</h4>
+            </div>
+          </div>
+          <!-- Ảnh fam-6.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+            <img 
+              src="assets/fam/fam-6.png" 
+              alt="Nhà tắm vách kính" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">4. Vệ Sinh Khô - Ướt</h4>
             </div>
           </div>
         </div>
@@ -695,7 +702,7 @@
         </div>
       </div>
 
-      <!-- KHU VỰC NHÀ TẮM (assets/fam/fam-6.png) -->
+      <!-- KHU VỰC NHÀ TẮM TIÊU BIỂU (fam-6.png) -->
       <div class="mt-6 sm:mt-10 bg-brand-100/70 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border border-brand-200/90 custom-shadow">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
           <div class="md:col-span-7">
@@ -735,7 +742,7 @@
     </div>
   </section>
 
-  <!-- ==================== CĂN HỘ 2: TRIPLE (assets/trip/...) ==================== -->
+  <!-- ==================== CĂN HỘ 2: TRIPLE (ĐỦ 5 ẢNH 1, 2, 4, 5, 6) ==================== -->
   <section id="can-ho-triple" class="py-12 sm:py-18 md:py-24 bg-brand-50 border-t border-brand-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       
@@ -752,7 +759,7 @@
       <!-- Tab Buttons Triple -->
       <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2.5 mb-4 sm:mb-5 no-print">
         <button onclick="switchView('trip', 'real')" id="tab-trip-real" class="flex-shrink-0 px-3.5 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-brand-900 tab-active transition">
-          Ảnh Thực Tế
+          Ảnh Thực Tế (5 Góc Chụp)
         </button>
         <button onclick="switchView('trip', '3d')" id="tab-trip-3d" class="flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold border border-brand-200 bg-brand-50 text-brand-900 hover:border-brand-900 transition">
           Phối Cảnh 3D Bố Trí Căn Hộ
@@ -762,43 +769,72 @@
         </button>
       </div>
 
-      <!-- Tab Thực Tế Triple -->
-      <div id="view-trip-real" class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
-        <div class="md:col-span-8 rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
-          <img 
-            src="assets/trip/trip-1.png" 
-            alt="Phòng ngủ 3 giường lớn đón sáng tự nhiên" 
-            class="w-full h-[240px] sm:h-[360px] md:h-[460px] object-cover lightbox-trigger group-hover:scale-102 transition duration-500"
-            onclick="openLightbox(this.src, this.alt)"
-          >
-          <div class="p-3.5 sm:p-6 bg-brand-50">
+      <!-- Tab Thực Tế Triple: Dùng Đủ 5 Ảnh (trip-1 làm tâm điểm, trip-2, trip-4, trip-5, trip-6) -->
+      <div id="view-trip-real" class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
+        <!-- ẢNH LỚN TÂM ĐIỂM: DÃY GIƯỜNG NGỦ ĐÓN SÁNG (trip-1.png) -->
+        <div class="lg:col-span-7 rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group flex flex-col justify-between">
+          <div class="relative overflow-hidden h-[260px] sm:h-[380px] lg:h-[430px]">
+            <img 
+              src="assets/trip/trip-1.png" 
+              alt="Phòng ngủ 3 giường lớn đón sáng tự nhiên" 
+              class="w-full h-full object-cover lightbox-trigger group-hover:scale-102 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+          </div>
+          <div class="p-4 sm:p-5 bg-brand-50 border-t border-brand-200/60">
             <h3 class="font-serif font-semibold text-base sm:text-xl text-brand-900">Không gian 3 giường ngủ rộng rãi cạnh cửa sổ</h3>
             <p class="text-brand-900/70 text-xs sm:text-sm mt-1">Cửa sổ lớn có rèm sáo điều tiết ánh sáng dịu nhẹ, sàn gạch men chống trơn trượt sạch sẽ.</p>
           </div>
         </div>
-        <div class="md:col-span-4 flex flex-col gap-4 sm:gap-6">
-          <div class="rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+
+        <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 (trip-2, trip-4, trip-5, trip-6) -->
+        <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
+          <!-- Ảnh trip-2.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
-              src="assets/trip/trip-5.png" 
-              alt="Khu bếp tông cam ấm áp" 
-              class="w-full h-36 sm:h-48 md:h-52 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              src="assets/trip/trip-2.png" 
+              alt="Góc nhìn dãy giường đối diện" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
               onclick="openLightbox(this.src, this.alt)"
             >
-            <div class="p-3 sm:p-4 bg-brand-50">
-              <h4 class="font-serif font-semibold text-xs sm:text-base text-brand-900">Khu bếp tiện nghi & Lavabo riêng</h4>
-              <p class="text-[11px] sm:text-xs text-brand-900/70 mt-0.5">Bếp từ, tủ lạnh hai cánh lớn và gương tròn LED sang trọng.</p>
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">1. Dãy 3 Giường Ngủ</h4>
             </div>
           </div>
-          <div class="rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+          <!-- Ảnh trip-4.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/trip/trip-4.png" 
-              alt="Góc bàn làm việc và đọc sách" 
-              class="w-full h-36 sm:h-48 md:h-52 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              alt="Bàn trà và đọc sách thư thái" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
               onclick="openLightbox(this.src, this.alt)"
             >
-            <div class="p-3 sm:p-4 bg-brand-50">
-              <h4 class="font-serif font-semibold text-xs sm:text-base text-brand-900">Góc bàn trà / đọc sách thư thái</h4>
-              <p class="text-[11px] sm:text-xs text-brand-900/70 mt-0.5">Bàn ghế gỗ thanh nhã đặt ngay cạnh cửa sổ để ngắm cảnh và đọc sách.</p>
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">2. Bàn Trà / Đọc Sách</h4>
+            </div>
+          </div>
+          <!-- Ảnh trip-5.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+            <img 
+              src="assets/trip/trip-5.png" 
+              alt="Bếp tiện nghi và lavabo" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">3. Bếp & Lavabo Riêng</h4>
+            </div>
+          </div>
+          <!-- Ảnh trip-6.png -->
+          <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
+            <img 
+              src="assets/trip/trip-6.png" 
+              alt="Phòng tắm căn Triple" 
+              class="w-full h-28 sm:h-36 md:h-40 object-cover lightbox-trigger group-hover:scale-105 transition duration-500"
+              onclick="openLightbox(this.src, this.alt)"
+            >
+            <div class="p-2 sm:p-2.5 bg-brand-50">
+              <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">4. Nhà Tắm Tiện Nghi</h4>
             </div>
           </div>
         </div>
@@ -850,7 +886,7 @@
     </div>
   </section>
 
-  <!-- ==================== VỊ TRÍ & BẢN ĐỒ DÀN NGANG (assets/location/...) ==================== -->
+  <!-- ==================== VỊ TRÍ & BẢN ĐỒ DÀN NGANG ==================== -->
   <section id="vi-tri" class="py-12 sm:py-18 md:py-24 bg-brand-50 border-t border-brand-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       
@@ -989,7 +1025,7 @@
       <!-- HÀNG 5 THẺ ẢNH THỰC TẾ CHI TIẾT -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4.5 w-full">
         
-        <!-- THẺ 1: BV HOÀN MỸ THỦ ĐỨC (bv.jpg) -->
+        <!-- THẺ 1: BV HOÀN MỸ THỦ ĐỨC -->
         <div 
           id="card-hospital" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-emerald-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1028,7 +1064,7 @@
           </div>
         </div>
 
-        <!-- THẺ 3: NHÀ THỜ ĐÔNG HÒA (nha-tho-dong-hoa.jpg) -->
+        <!-- THẺ 3: NHÀ THỜ ĐÔNG HÒA -->
         <div 
           id="card-church" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-purple-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1046,7 +1082,7 @@
           </div>
         </div>
 
-        <!-- THẺ 4: CHÙA THIÊN QUANG (chua-thien-quang.png) -->
+        <!-- THẺ 4: CHÙA THIÊN QUANG -->
         <div 
           id="card-pagoda" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-amber-600 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1064,7 +1100,7 @@
           </div>
         </div>
 
-        <!-- THẺ 5: GA METRO BẾN THÀNH - SUỐI TIÊN (metro.jpg) -->
+        <!-- THẺ 5: GA METRO BẾN THÀNH - SUỐI TIÊN -->
         <div 
           id="card-metro" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-sky-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1130,7 +1166,7 @@
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
-    // Hàm trượt carousel tiện ích mượt mà
+    // Hàm trượt carousel
     function slideCarousel(id, direction) {
       const container = document.getElementById(id);
       if (container) {
@@ -1161,10 +1197,10 @@
 
     // Callout Tiện ích
     const calloutData = {
-      hotel: { title: '2. Khách Sạn Bcons City', img: '4.png', desc: 'Sảnh lễ tân đón tiếp sang trọng, thang máy thẻ từ riêng biệt và an ninh 24/7.' },
+      hotel: { title: '2. Khách Sạn Bcons City', img: 'assets/4.png', desc: 'Sảnh lễ tân đón tiếp sang trọng, thang máy thẻ từ riêng biệt và an ninh 24/7.' },
       meethai: { title: 'Nhà Hàng Mee Thai', img: 'assets/mee-thai/mee-thai-1.png', desc: 'Hương vị ẩm thực Thái Lan chuẩn vị, ấm cúng ngay trong nội khu.' },
       park: { title: 'Công Viên Cây Xanh', img: 'assets/park/park-1.jpg', desc: 'Lối dạo bộ rợp bóng mát, ghế đá thư giãn và thảm cỏ xanh trong lành cho người lớn tuổi.' },
-      coop: { title: '1. Siêu Thị Co.opmart', img: 'coopmart.jpg', desc: 'Thực phẩm tươi sạch, rau củ quả quê nhà và đồ gia dụng hàng ngày ngay khối đế.' },
+      coop: { title: '1. Siêu Thị Co.opmart', img: 'assets/coopmart.jpg', desc: 'Thực phẩm tươi sạch, rau củ quả quê nhà và đồ gia dụng hàng ngày ngay khối đế.' },
       mall: { title: '4. TTTM Bcons Mall', img: 'assets/mall/mall-1.jpg', desc: 'Phức hợp nhà hàng, ẩm thực gia đình, thời trang và không gian mua sắm sầm uất.' },
       gs25: { title: '3. GS25 (24/7)', img: 'assets/location/gs25.jpg', desc: 'Phục vụ bữa sáng, cà phê và nhu yếu phẩm cần thiết bất kể thời gian nào.' }
     };
@@ -1199,7 +1235,6 @@
         }
       }
 
-      // Cập nhật thanh preview mobile
       if (calloutData[targetKey]) {
         const bar = document.getElementById('mobile-detail-bar');
         document.getElementById('mobile-detail-img').src = calloutData[targetKey].img;
