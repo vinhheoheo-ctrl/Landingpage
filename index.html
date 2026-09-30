@@ -95,20 +95,28 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .lightbox-trigger { cursor: zoom-in; }
 
-    /* CSS Carousel Infinite */
-    .carousel-container {
+    /* KHUNG CAROUSEL CHUYỂN ĐỘNG LƯỚT LỤA (SILK SMOOTH TRANSFORM) */
+    .carousel-track-wrapper {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      border-radius: 16px;
+    }
+    .carousel-track {
       display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      will-change: transform;
+      transition: transform 0.85s cubic-bezier(0.25, 1, 0.35, 1);
+    }
+    .carousel-slide-item {
+      flex: 0 0 100%;
+      width: 100%;
+      padding: 0 4px;
+      box-sizing: border-box;
       user-select: none;
     }
-    .carousel-slide {
-      flex-shrink: 0;
-    }
 
-    /* ĐẶC TRỊ LONG PAGE PDF PRINT VÀ GULLPAGE */
+    /* ĐẶC TRỊ CHO CHẾ ĐỘ XUẤT PDF: BỐ CỤC BROCHURE SANG TRỌNG */
     body.pdf-export-mode #mobile-detail-bar,
     body.pdf-export-mode .carousel-nav-btn,
     body.pdf-export-mode .no-print,
@@ -124,19 +132,56 @@
       margin-top: 2rem !important;
     }
 
-    body.pdf-export-mode .carousel-container {
+    body.pdf-export-mode .amenity-export-card {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+      gap: 24px !important;
+      padding: 24px !important;
+      margin-bottom: 24px !important;
+      border: 1px solid #E6D9C5 !important;
+      background: #FFFFFF !important;
+      border-radius: 20px !important;
+      page-break-inside: avoid;
+    }
+
+    body.pdf-export-mode .amenity-export-info {
+      width: 28% !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      border-right: 1px solid #F4EFE6 !important;
+      padding-right: 20px !important;
+      text-align: left !important;
+    }
+
+    body.pdf-export-mode .carousel-track {
+      width: 72% !important;
       display: grid !important;
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      gap: 16px !important;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+      gap: 12px !important;
+      transform: none !important;
+      transition: none !important;
       overflow: visible !important;
     }
 
-    body.pdf-export-mode .carousel-slide {
+    body.pdf-export-mode .carousel-slide-item {
+      flex: none !important;
       width: 100% !important;
+      padding: 0 !important;
+      height: 180px !important;
     }
 
-    body.pdf-export-mode .carousel-slide.clone-slide {
+    body.pdf-export-mode .carousel-slide-item.clone-item {
       display: none !important;
+    }
+
+    body.pdf-export-mode .carousel-slide-item img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 12px !important;
     }
 
     @media print {
@@ -155,17 +200,44 @@
         margin-top: 1.5rem !important;
         page-break-inside: avoid;
       }
-      .carousel-container {
+      .amenity-export-card {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch !important;
+        gap: 20px !important;
+        padding: 20px !important;
+        margin-bottom: 20px !important;
+        border: 1px solid #E6D9C5 !important;
+        background: #FFFFFF !important;
+        border-radius: 16px !important;
+        page-break-inside: avoid;
+      }
+      .amenity-export-info {
+        width: 30% !important;
+        border-right: 1px solid #E6D9C5 !important;
+        padding-right: 15px !important;
+      }
+      .carousel-track {
+        width: 70% !important;
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 12px !important;
-        overflow: visible !important;
+        gap: 10px !important;
+        transform: none !important;
+        transition: none !important;
       }
-      .carousel-slide {
+      .carousel-slide-item {
+        flex: none !important;
         width: 100% !important;
+        height: 160px !important;
       }
-      .carousel-slide.clone-slide {
+      .carousel-slide-item.clone-item {
         display: none !important;
+      }
+      .carousel-slide-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        border-radius: 10px !important;
       }
       .callout-popup {
         display: none !important;
@@ -497,149 +569,140 @@
 
       </div>
 
-      <!-- ==================== CỤM CAROUSEL INFINITE AUTO-SCROLL ==================== -->
-      <div class="mt-10 sm:mt-14 space-y-10 sm:space-y-14">
+      <!-- ==================== CỤM TIỆN ÍCH CHI TIẾT (CHUẨN CAROUSEL LƯỚT 1 HÌNH TÂM ĐIỂM) ==================== -->
+      <div class="mt-10 sm:mt-14 space-y-6 sm:space-y-8">
         
-        <!-- 1. CAROUSEL HỒ BƠI & PHÒNG GYM -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-          <!-- Cụm Hồ Bơi -->
-          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div class="mb-3">
-              <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Dưỡng Sinh & Thư Giãn</span>
-              <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900">Hồ Bơi Tràn Bờ Xanh Mát</h3>
-              <p class="text-xs sm:text-sm text-brand-900/75 mt-1">Mặt nước trong lành, sàn gỗ tắm nắng và ghế nghỉ ngơi yên tĩnh giữa khuôn viên xanh.</p>
-            </div>
-            
-            <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="manualSlide('carousel-pool', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="manualSlide('carousel-pool', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
-
-              <div id="carousel-pool" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="2500">
-                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/gym-pool/pool-1.jpg" alt="Hồ bơi Bcons City - Góc 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/gym-pool/pool-2.jpg" alt="Hồ bơi Bcons City - Góc 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/gym-pool/pool-3.jpg" alt="Hồ bơi Bcons City - Góc 3" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-                </div>
-              </div>
-            </div>
+        <!-- 1. HỒ BƠI TRÀN BỜ -->
+        <div class="amenity-export-card bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
+          <div class="amenity-export-info mb-3">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Dưỡng Sinh & Thư Giãn</span>
+            <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900 mt-0.5">Hồ Bơi Tràn Bờ Xanh Mát</h3>
+            <p class="text-xs sm:text-sm text-brand-900/75 mt-1 leading-relaxed">Mặt nước trong lành giữa công viên sinh thái, trang bị sàn gỗ tắm nắng và ghế nghỉ ngơi yên tĩnh.</p>
           </div>
+          
+          <div class="relative group/box carousel-track-wrapper flex-grow" id="wrapper-pool">
+            <button onclick="smoothPrev('pool')" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+            <button onclick="smoothNext('pool')" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-          <!-- Cụm Phòng Gym -->
-          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div class="mb-3">
-              <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Rèn Luyện Thể Lực</span>
-              <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900">Phòng Gym Đa Năng</h3>
-              <p class="text-xs sm:text-sm text-brand-900/75 mt-1">Trang thiết bị hiện đại, máy đi bộ ngắm trọn công viên giúp duy trì sức khỏe dẻo dai.</p>
-            </div>
-            
-            <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="manualSlide('carousel-gym', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="manualSlide('carousel-gym', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
-
-              <div id="carousel-gym" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="2700">
-                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/gym-pool/gym-1.png" alt="Phòng Gym Bcons City - Không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/gym-pool/gym-2.png" alt="Phòng Gym Bcons City - Không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/gym-pool/gym-3.png" alt="Phòng Gym Bcons City - Thiết bị tập" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
-                </div>
+            <div id="track-pool" class="carousel-track" data-speed="3000">
+              <div class="carousel-slide-item aspect-[16/10] overflow-hidden rounded-xl">
+                <img src="assets/gym-pool/pool-1.jpg" alt="Hồ bơi Bcons City - Góc 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[16/10] overflow-hidden rounded-xl">
+                <img src="assets/gym-pool/pool-2.jpg" alt="Hồ bơi Bcons City - Góc 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[16/10] overflow-hidden rounded-xl">
+                <img src="assets/gym-pool/pool-3.jpg" alt="Hồ bơi Bcons City - Góc 3" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 2. CAROUSEL MEE THAI, BCONS MALL & CÔNG VIÊN XANH -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <!-- 2. PHÒNG GYM ĐA NĂNG -->
+        <div class="amenity-export-card bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
+          <div class="amenity-export-info mb-3">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-brand-700">Rèn Luyện Thể Lực</span>
+            <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900 mt-0.5">Phòng Gym Đa Năng</h3>
+            <p class="text-xs sm:text-sm text-brand-900/75 mt-1 leading-relaxed">Trang bị máy tập hiện đại, khu máy chạy bộ tầm nhìn thoáng rộng giúp rèn luyện cơ thể mỗi ngày.</p>
+          </div>
           
-          <!-- Mee Thai Carousel -->
-          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div class="mb-3">
-              <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">Ẩm Thực Mee Thai</h4>
-              <p class="text-xs text-brand-900/75 mt-0.5 leading-relaxed">Không gian nhà hàng sang trọng với hương vị lẩu Thái và món ngon ấm cúng.</p>
-            </div>
-            
-            <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="manualSlide('carousel-meethai', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="manualSlide('carousel-meethai', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+          <div class="relative group/box carousel-track-wrapper flex-grow" id="wrapper-gym">
+            <button onclick="smoothPrev('gym')" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+            <button onclick="smoothNext('gym')" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-meethai" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="2900">
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mee-thai/mee-thai-1.png" alt="Mee Thai không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mee-thai/mee-thai-2.png" alt="Mee Thai không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mee-thai/mee-thai-3.jpg" alt="Mee Thai món ăn" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mee-thai/mee-thai-4.jpg" alt="Mee Thai bài trí" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
+            <div id="track-gym" class="carousel-track" data-speed="3200">
+              <div class="carousel-slide-item aspect-[16/10] overflow-hidden rounded-xl">
+                <img src="assets/gym-pool/gym-1.png" alt="Phòng Gym Bcons City - Không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[16/10] overflow-hidden rounded-xl">
+                <img src="assets/gym-pool/gym-2.png" alt="Phòng Gym Bcons City - Không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[16/10] overflow-hidden rounded-xl">
+                <img src="assets/gym-pool/gym-3.png" alt="Phòng Gym Bcons City - Thiết bị tập" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Bcons Mall Carousel -->
-          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div class="mb-3">
-              <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">TTTM Bcons Mall</h4>
-              <p class="text-xs text-brand-900/75 mt-0.5 leading-relaxed">3 tầng thương mại quy tụ chuỗi mua sắm, cà phê và ẩm thực gia đình tiện lợi.</p>
-            </div>
-            
-            <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="manualSlide('carousel-mall', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="manualSlide('carousel-mall', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+        <!-- 3. NHÀ HÀNG MEE THAI -->
+        <div class="amenity-export-card bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
+          <div class="amenity-export-info mb-3">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-rose-600">Ẩm Thực Đặc Sắc</span>
+            <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900 mt-0.5">Nhà Hàng Mee Thai</h3>
+            <p class="text-xs sm:text-sm text-brand-900/75 mt-1 leading-relaxed">Không gian nhà hàng sang trọng mang đậm nét văn hóa Thái, phục vụ thực đơn ấm cúng cho cả gia đình.</p>
+          </div>
+          
+          <div class="relative group/box carousel-track-wrapper flex-grow" id="wrapper-meethai">
+            <button onclick="smoothPrev('meethai')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+            <button onclick="smoothNext('meethai')" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-mall" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="3100">
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mall/mall-1.jpg" alt="Bcons Mall - Mặt tiền sảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mall/mall-2.jpg" alt="Bcons Mall - Khu mua sắm" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/mall/mall-3.jpg" alt="Bcons Mall - Hành lang thương mại" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
+            <div id="track-meethai" class="carousel-track" data-speed="3400">
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/mee-thai/mee-thai-2.png" alt="Mee Thai không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/mee-thai/mee-thai-3.jpg" alt="Mee Thai món ăn" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/mee-thai/mee-thai-4.jpg" alt="Mee Thai bài trí" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Công Viên Carousel -->
-          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-brand-200/90 custom-shadow flex flex-col justify-between">
-            <div class="mb-3">
-              <h4 class="font-serif font-bold text-base sm:text-lg text-brand-900">Công Viên Cây Xanh</h4>
-              <p class="text-xs text-brand-900/75 mt-0.5 leading-relaxed">Không gian dạo bộ rợp bóng mát, ghế đá thư giãn và thảm cỏ xanh trong lành.</p>
-            </div>
-            
-            <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="manualSlide('carousel-park', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="manualSlide('carousel-park', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+        <!-- 4. TTTM BCONS MALL -->
+        <div class="amenity-export-card bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
+          <div class="amenity-export-info mb-3">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-amber-600">Mua Sắm & Giải Trí</span>
+            <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900 mt-0.5">TTTM Bcons Mall</h3>
+            <p class="text-xs sm:text-sm text-brand-900/75 mt-1 leading-relaxed">Tổ hợp 3 tầng thương mại quy tụ chuỗi siêu thị mua sắm, cà phê, nhà hàng và giải trí ngay mặt tiền.</p>
+          </div>
+          
+          <div class="relative group/box carousel-track-wrapper flex-grow" id="wrapper-mall">
+            <button onclick="smoothPrev('mall')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+            <button onclick="smoothNext('mall')" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-park" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="3300">
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/park/park-1.jpg" alt="Công viên xanh - Góc dạo bộ" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/park/park-2.jpg" alt="Công viên xanh - Cụm tiểu cảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
-                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
-                  <img src="assets/park/park-3.jpg" alt="Công viên xanh - Ghế nghỉ thư thái" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
-                </div>
+            <div id="track-mall" class="carousel-track" data-speed="3600">
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/mall/mall-1.jpg" alt="Bcons Mall - Mặt tiền sảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/mall/mall-2.jpg" alt="Bcons Mall - Khu mua sắm" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/mall/mall-3.jpg" alt="Bcons Mall - Hành lang thương mại" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
               </div>
             </div>
           </div>
+        </div>
 
+        <!-- 5. CÔNG VIÊN CÂY XANH -->
+        <div class="amenity-export-card bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-200/90 custom-shadow flex flex-col justify-between">
+          <div class="amenity-export-info mb-3">
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-lime-700">Sinh Thái Xanh</span>
+            <h3 class="text-lg sm:text-2xl font-serif font-bold text-brand-900 mt-0.5">Công Viên Cây Xanh</h3>
+            <p class="text-xs sm:text-sm text-brand-900/75 mt-1 leading-relaxed">Khuôn viên dạo bộ rợp bóng mát, ghế đá nghỉ chân tĩnh lặng và không khí trong lành chuẩn nghỉ dưỡng.</p>
+          </div>
+          
+          <div class="relative group/box carousel-track-wrapper flex-grow" id="wrapper-park">
+            <button onclick="smoothPrev('park')" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+            <button onclick="smoothNext('park')" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+
+            <div id="track-park" class="carousel-track" data-speed="3800">
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/park/park-1.jpg" alt="Công viên xanh - Góc dạo bộ" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/park/park-2.jpg" alt="Công viên xanh - Cụm tiểu cảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+              <div class="carousel-slide-item aspect-[4/3] overflow-hidden rounded-xl">
+                <img src="assets/park/park-3.jpg" alt="Công viên xanh - Ghế nghỉ thư thái" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-700" onclick="openLightbox(this.src, this.alt)">
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
-
     </div>
   </section>
 
@@ -670,7 +733,7 @@
         </button>
       </div>
 
-      <!-- Tab Thực Tế Family: Dùng Đủ 5 Ảnh (fam-4 làm tâm điểm, fam-1, fam-2, fam-5, fam-6) -->
+      <!-- Tab Thực Tế Family: Dùng Đủ 5 Ảnh -->
       <div id="view-fam-real" class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         <!-- ẢNH LỚN TÂM ĐIỂM: PHÒNG KHÁCH (fam-4.png) -->
         <div class="lg:col-span-7 rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group flex flex-col justify-between">
@@ -688,7 +751,7 @@
           </div>
         </div>
 
-        <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 (fam-1, fam-2, fam-5, fam-6) -->
+        <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 -->
         <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
@@ -847,7 +910,7 @@
         </button>
       </div>
 
-      <!-- Tab Thực Tế Triple: Dùng Đủ 5 Ảnh (trip-1 làm tâm điểm, trip-2, trip-4, trip-5, trip-6) -->
+      <!-- Tab Thực Tế Triple: Dùng Đủ 5 Ảnh -->
       <div id="view-trip-real" class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         <!-- ẢNH LỚN TÂM ĐIỂM: DÃY GIƯỜNG NGỦ ĐÓN SÁNG (trip-1.png) -->
         <div class="lg:col-span-7 rounded-2xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group flex flex-col justify-between">
@@ -865,7 +928,7 @@
           </div>
         </div>
 
-        <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 (trip-2, trip-4, trip-5, trip-6) -->
+        <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 -->
         <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
@@ -1233,54 +1296,104 @@
     </div>
   </div>
 
-  <!-- ==================== JAVASCRIPT: AUTO INFINITE CAROUSEL & EXPORT PDF ==================== -->
+  <!-- ==================== JAVASCRIPT: TRUE INFINITE CAROUSEL & EXPORT PDF ==================== -->
   <script>
-    // 1. KHỞI TẠO CAROUSEL AUTO-SCROLL INFINITE VÔ HẠN
-    const carouselTimers = {};
+    // 1. ENGINE TRUE INFINITE TRANSFORM (KHÔNG BAO GIỜ STUCK, LƯỚT SIÊU MƯỢT)
+    const carousels = {};
 
-    function initInfiniteCarousels() {
-      const carousels = document.querySelectorAll('.auto-infinite-carousel');
-      
-      carousels.forEach((carousel) => {
-        const id = carousel.id;
-        const originalChildren = Array.from(carousel.children);
-        
-        // Clone các slide để tạo chu kỳ vòng lặp vô hạn
-        originalChildren.forEach(child => {
-          const clone = child.cloneNode(true);
-          clone.classList.add('clone-slide');
-          carousel.appendChild(clone);
+    function setupSmoothCarousel(name) {
+      const track = document.getElementById('track-' + name);
+      const wrapper = document.getElementById('wrapper-' + name);
+      if (!track || !wrapper) return;
+
+      const rawItems = Array.from(track.children);
+      const count = rawItems.length;
+      const speed = parseInt(track.getAttribute('data-speed')) || 3200;
+
+      // Nhân bản 2 bộ để tạo chu kỳ lặp vô hạn
+      for (let i = 0; i < 2; i++) {
+        rawItems.forEach(item => {
+          const clone = item.cloneNode(true);
+          clone.classList.add('clone-item');
+          track.appendChild(clone);
         });
+      }
 
-        const speed = parseInt(carousel.getAttribute('data-speed')) || 2800;
+      carousels[name] = {
+        index: 0,
+        total: count,
+        track: track,
+        timer: null
+      };
 
-        function runAutoScroll() {
-          carouselTimers[id] = setInterval(() => {
-            const singleSlideWidth = originalChildren[0].offsetWidth + 12;
-            const maxOriginalWidth = singleSlideWidth * originalChildren.length;
-
-            if (carousel.scrollLeft >= maxOriginalWidth) {
-              carousel.scrollLeft = 0;
-            }
-            carousel.scrollBy({ left: singleSlideWidth, behavior: 'smooth' });
-          }, speed);
+      function updateSlide(animate = true) {
+        if (animate) {
+          track.style.transition = 'transform 0.85s cubic-bezier(0.25, 1, 0.35, 1)';
+        } else {
+          track.style.transition = 'none';
         }
+        
+        const singleWidth = rawItems[0].offsetWidth;
+        const currentOffset = -(carousels[name].index * singleWidth);
+        track.style.transform = `translate3d(${currentOffset}px, 0, 0)`;
+      }
 
-        runAutoScroll();
+      function next() {
+        carousels[name].index++;
+        updateSlide(true);
 
-        carousel.addEventListener('mouseenter', () => clearInterval(carouselTimers[id]));
-        carousel.addEventListener('mouseleave', () => runAutoScroll());
-        carousel.addEventListener('touchstart', () => clearInterval(carouselTimers[id]), { passive: true });
-        carousel.addEventListener('touchend', () => runAutoScroll());
-      });
+        // Khi trượt hết 1 vòng ảnh thật, reset ngầm về vị trí đầu
+        if (carousels[name].index >= count) {
+          setTimeout(() => {
+            carousels[name].index = 0;
+            updateSlide(false);
+          }, 850);
+        }
+      }
+
+      function prev() {
+        if (carousels[name].index <= 0) {
+          carousels[name].index = count;
+          updateSlide(false);
+          setTimeout(() => {
+            carousels[name].index--;
+            updateSlide(true);
+          }, 20);
+        } else {
+          carousels[name].index--;
+          updateSlide(true);
+        }
+      }
+
+      function start() {
+        if (carousels[name].timer) clearInterval(carousels[name].timer);
+        carousels[name].timer = setInterval(next, speed);
+      }
+
+      function stop() {
+        clearInterval(carousels[name].timer);
+      }
+
+      start();
+
+      wrapper.addEventListener('mouseenter', stop);
+      wrapper.addEventListener('mouseleave', start);
+      wrapper.addEventListener('touchstart', stop, { passive: true });
+      wrapper.addEventListener('touchend', start);
+
+      carousels[name].nextFn = next;
+      carousels[name].prevFn = prev;
     }
 
-    function manualSlide(id, direction) {
-      const container = document.getElementById(id);
-      if (container) {
-        clearInterval(carouselTimers[id]);
-        const slideWidth = container.firstElementChild.offsetWidth + 12;
-        container.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+    function smoothNext(name) {
+      if (carousels[name]) {
+        carousels[name].nextFn();
+      }
+    }
+
+    function smoothPrev(name) {
+      if (carousels[name]) {
+        carousels[name].prevFn();
       }
     }
 
@@ -1290,7 +1403,11 @@
       const isExporting = body.classList.toggle('pdf-export-mode');
 
       if (isExporting) {
-        Object.keys(carouselTimers).forEach(key => clearInterval(carouselTimers[key]));
+        Object.keys(carousels).forEach(name => {
+          if (carousels[name] && carousels[name].timer) {
+            clearInterval(carousels[name].timer);
+          }
+        });
         
         alert("Đã chuyển sang chế độ Long-Page: Toàn bộ ảnh căn hộ và tiện ích đã được trải phẳng 100%. Bạn có thể dùng tiện ích GoFullPage hoặc chọn In (Save as PDF) ngay bây giờ.");
         
@@ -1438,8 +1555,23 @@
       if (e.key === 'Escape') closeLightbox();
     });
 
+    // Khởi chạy cả 5 Carousel
     window.addEventListener('DOMContentLoaded', () => {
-      initInfiniteCarousels();
+      ['pool', 'gym', 'meethai', 'mall', 'park'].forEach(name => {
+        setupSmoothCarousel(name);
+      });
+    });
+
+    // Căn lại kích thước khi resize
+    window.addEventListener('resize', () => {
+      Object.keys(carousels).forEach(name => {
+        const track = carousels[name].track;
+        if (track && track.firstElementChild) {
+          const singleWidth = track.firstElementChild.offsetWidth;
+          track.style.transition = 'none';
+          track.style.transform = `translate3d(${-(carousels[name].index * singleWidth)}px, 0, 0)`;
+        }
+      });
     });
   </script>
 
