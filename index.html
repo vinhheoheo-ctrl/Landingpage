@@ -72,33 +72,87 @@
       animation: dash 2.5s linear infinite;
     }
 
+    /* HIỆU ỨNG TIA DẪN NỘI KHU CHUYỂN ĐỘNG LIÊN TỤC */
+    @keyframes flowCallout {
+      from { stroke-dashoffset: 40; }
+      to { stroke-dashoffset: 0; }
+    }
+    .callout-flow-line {
+      stroke-dasharray: 6, 5;
+      animation: flowCallout 1.2s linear infinite;
+    }
+
+    /* VÒNG TRÒN GỢN SÓNG TẠI TÂM KHÔNG LỆCH TỌA ĐỘ */
+    @keyframes pulseRing {
+      0% { r: 4; opacity: 0.9; }
+      100% { r: 12; opacity: 0; }
+    }
+    .pulse-radar-dot {
+      animation: pulseRing 1.8s cubic-bezier(0.2, 0, 0.3, 1) infinite;
+    }
+
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .lightbox-trigger { cursor: zoom-in; }
 
-    /* CSS Carousel */
+    /* CSS Carousel Infinite */
     .carousel-container {
-      scroll-snap-type: x mandatory;
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+      user-select: none;
     }
     .carousel-slide {
-      scroll-snap-align: start;
       flex-shrink: 0;
     }
 
-    /* ĐẶC TRỊ XUẤT BẢN PDF / PRINT TO PDF */
+    /* ĐẶC TRỊ LONG PAGE PDF PRINT VÀ GULLPAGE */
+    body.pdf-export-mode #mobile-detail-bar,
+    body.pdf-export-mode .carousel-nav-btn,
+    body.pdf-export-mode .no-print,
+    body.pdf-export-mode header {
+      display: none !important;
+    }
+
+    body.pdf-export-mode #view-fam-3d,
+    body.pdf-export-mode #view-fam-pano,
+    body.pdf-export-mode #view-trip-3d,
+    body.pdf-export-mode #view-trip-pano {
+      display: block !important;
+      margin-top: 2rem !important;
+    }
+
+    body.pdf-export-mode .carousel-container {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 16px !important;
+      overflow: visible !important;
+    }
+
+    body.pdf-export-mode .carousel-slide {
+      width: 100% !important;
+    }
+
+    body.pdf-export-mode .carousel-slide.clone-slide {
+      display: none !important;
+    }
+
     @media print {
-      header, #mobile-detail-bar, .no-print, button, .carousel-nav-btn {
-        display: none !important;
+      @page {
+        size: auto;
+        margin: 10mm;
       }
       body {
         background-color: #ffffff !important;
-        color: #000000 !important;
+      }
+      header, #mobile-detail-bar, .no-print, button, .carousel-nav-btn {
+        display: none !important;
       }
       #view-fam-3d, #view-fam-pano, #view-trip-3d, #view-trip-pano {
         display: block !important;
-        margin-top: 2rem !important;
+        margin-top: 1.5rem !important;
         page-break-inside: avoid;
       }
       .carousel-container {
@@ -109,7 +163,9 @@
       }
       .carousel-slide {
         width: 100% !important;
-        height: auto !important;
+      }
+      .carousel-slide.clone-slide {
+        display: none !important;
       }
       .callout-popup {
         display: none !important;
@@ -134,9 +190,10 @@
       </nav>
       
       <div class="flex items-center space-x-2.5">
-        <button onclick="window.print()" class="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-brand-900/30 text-brand-900 hover:bg-brand-100 transition">
-          <span>📄</span>
-          <span>In / Xuất PDF</span>
+        <button onclick="preparePdfExport()" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-full text-xs font-semibold border border-brand-900/30 text-brand-900 hover:bg-brand-100 transition shadow-sm" title="Trải phẳng toàn bộ hình ảnh để lưu PDF hoặc chụp Long-page">
+          <span>📑</span>
+          <span class="hidden sm:inline">Chế Độ Xuất PDF</span>
+          <span class="sm:hidden">Xuất PDF</span>
         </button>
         <a href="#chao-mung" class="inline-flex items-center justify-center px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-900 text-brand-50 hover:bg-brand-800 transition custom-shadow whitespace-nowrap">
           Khám Phá Lưu Trú
@@ -220,7 +277,7 @@
         </button>
       </div>
 
-      <!-- KHUNG BẢN ĐỒ TOÀN CẢNH (assets/toan-khu.png) -->
+      <!-- KHUNG BẢN ĐỒ TOÀN CẢNH KÈM TIA SVG KÉO RA TỪ TÂM TRÒN -->
       <div 
         id="interactive-callout-container"
         class="relative rounded-2xl sm:rounded-3xl overflow-hidden border border-brand-200/90 custom-shadow bg-stone-900 h-[400px] sm:h-auto sm:aspect-[16/9] w-full select-none"
@@ -231,47 +288,72 @@
           class="w-full h-full object-cover transition-all duration-700 scale-[1.7] origin-[72%_62%] sm:scale-100 sm:origin-center"
         >
 
-        <!-- LỚP TIA SVG TRÊN DESKTOP -->
+        <!-- LỚP TIA SVG TRÊN DESKTOP: NỐI CHUẨN XÁC TỪNG TÂM NEO ĐẾN BADGE -->
         <svg class="hidden sm:block absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 1000 562" preserveAspectRatio="none">
+          <!-- 1. Co.opmart (Chân tháp phải nối xuống góc phải) -->
           <g id="line-coop" class="callout-line transition-all duration-300">
-            <line x1="785" y1="500" x2="720" y2="520" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="785" cy="500" r="5" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.5"/>
+            <line x1="810" y1="400" x2="710" y2="475" stroke="#DC2626" stroke-width="4" opacity="0.25" stroke-linecap="round" />
+            <line x1="810" y1="400" x2="710" y2="475" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" class="callout-flow-line" />
+            <circle cx="810" cy="400" r="4" fill="none" stroke="#DC2626" stroke-width="2" class="pulse-radar-dot" />
+            <circle cx="810" cy="400" r="4.5" fill="#DC2626" stroke="#FFFFFF" stroke-width="2"/>
           </g>
+
+          <!-- 2. Khách sạn Bcons City (Tháp chính nối lên huy hiệu) -->
           <g id="line-hotel" class="callout-line transition-all duration-300">
-            <line x1="600" y1="290" x2="575" y2="225" stroke="#059669" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="600" cy="290" r="5" fill="#FFFFFF" stroke="#059669" stroke-width="2.5"/>
+            <line x1="586" y1="285" x2="528" y2="218" stroke="#059669" stroke-width="4" opacity="0.25" stroke-linecap="round" />
+            <line x1="586" y1="285" x2="528" y2="218" stroke="#059669" stroke-width="2.5" stroke-linecap="round" class="callout-flow-line" />
+            <circle cx="586" cy="285" r="4" fill="none" stroke="#059669" stroke-width="2" class="pulse-radar-dot" />
+            <circle cx="586" cy="285" r="4.5" fill="#059669" stroke="#FFFFFF" stroke-width="2"/>
           </g>
+
+          <!-- 3. GS25 (Chân tháp sau kéo ra) -->
           <g id="line-gs25" class="callout-line transition-all duration-300">
-            <line x1="485" y1="315" x2="455" y2="350" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="485" cy="315" r="5" fill="#FFFFFF" stroke="#0284C7" stroke-width="2.5"/>
+            <line x1="480" y1="315" x2="415" y2="348" stroke="#0284C7" stroke-width="4" opacity="0.25" stroke-linecap="round" />
+            <line x1="480" y1="315" x2="415" y2="348" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round" class="callout-flow-line" />
+            <circle cx="480" cy="315" r="4" fill="none" stroke="#0284C7" stroke-width="2" class="pulse-radar-dot" />
+            <circle cx="480" cy="315" r="4.5" fill="#0284C7" stroke="#FFFFFF" stroke-width="2"/>
           </g>
+
+          <!-- 4. Bcons Mall (Mặt tiền khối đế 3 tầng) -->
           <g id="line-mall" class="callout-line transition-all duration-300">
-            <line x1="582" y1="368" x2="540" y2="435" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="582" cy="368" r="5" fill="#FFFFFF" stroke="#D97706" stroke-width="2.5"/>
+            <line x1="570" y1="362" x2="510" y2="425" stroke="#D97706" stroke-width="4" opacity="0.25" stroke-linecap="round" />
+            <line x1="570" y1="362" x2="510" y2="425" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" class="callout-flow-line" />
+            <circle cx="570" cy="362" r="4" fill="none" stroke="#D97706" stroke-width="2" class="pulse-radar-dot" />
+            <circle cx="570" cy="362" r="4.5" fill="#D97706" stroke="#FFFFFF" stroke-width="2"/>
           </g>
+
+          <!-- 5. Mee Thai (Điểm nối 2 tháp kéo chéo lên thân tháp phải) -->
           <g id="line-meethai" class="callout-line transition-all duration-300">
-            <line x1="662" y1="340" x2="705" y2="295" stroke="#E11D48" stroke-width="3" stroke-linecap="round" />
-            <circle cx="662" cy="340" r="6" fill="#FFFFFF" stroke="#E11D48" stroke-width="3"/>
+            <line x1="635" y1="336" x2="700" y2="265" stroke="#E11D48" stroke-width="4" opacity="0.25" stroke-linecap="round" />
+            <line x1="635" y1="336" x2="700" y2="265" stroke="#E11D48" stroke-width="2.5" stroke-linecap="round" class="callout-flow-line" />
+            <circle cx="635" cy="336" r="4" fill="none" stroke="#E11D48" stroke-width="2" class="pulse-radar-dot" />
+            <circle cx="635" cy="336" r="4.5" fill="#E11D48" stroke="#FFFFFF" stroke-width="2"/>
           </g>
+
+          <!-- 6. Công Viên (Mảng xanh trung tâm) -->
           <g id="line-park" class="callout-line transition-all duration-300">
-            <line x1="655" y1="410" x2="695" y2="435" stroke="#65A30D" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="655" cy="410" r="5" fill="#FFFFFF" stroke="#65A30D" stroke-width="2.5"/>
+            <line x1="645" y1="400" x2="680" y2="395" stroke="#65A30D" stroke-width="4" opacity="0.25" stroke-linecap="round" />
+            <line x1="645" y1="400" x2="680" y2="395" stroke="#65A30D" stroke-width="2.5" stroke-linecap="round" class="callout-flow-line" />
+            <circle cx="645" cy="400" r="4" fill="none" stroke="#65A30D" stroke-width="2" class="pulse-radar-dot" />
+            <circle cx="645" cy="400" r="4.5" fill="#65A30D" stroke="#FFFFFF" stroke-width="2"/>
           </g>
         </svg>
+
+        <!-- ==================== CÁC ĐIỂM CALLOUT BADGE ==================== -->
 
         <!-- 🏨 KHÁCH SẠN BCONS CITY -->
         <div 
           id="item-hotel" 
-          class="callout-item absolute top-[28%] sm:top-[39%] left-[54%] sm:left-[54%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
+          class="callout-item absolute top-[28%] sm:top-[38%] left-[54%] sm:left-[52.8%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
           onclick="highlightCallout('hotel')" onmouseenter="highlightCallout('hotel')"
         >
           <div class="relative flex flex-col items-start cursor-pointer transition hover:scale-105 active:scale-95">
-            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-emerald-500 shadow-xl flex items-center space-x-1 sm:space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"></span>
-              <span class="text-xs sm:text-sm font-serif font-bold text-brand-900 whitespace-nowrap">2. Khách Sạn</span>
+            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1 sm:py-1 rounded-full border-2 border-emerald-500 shadow-xl flex items-center space-x-1 sm:space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+              <span class="text-xs sm:text-[13px] font-serif font-bold text-brand-900 whitespace-nowrap">2. Khách Sạn</span>
             </div>
-            <div class="hidden sm:block mt-1 bg-brand-900/85 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-lg border border-white/20">
-              <span class="text-[9px] uppercase font-extrabold tracking-wider text-emerald-400">KHÁCH SẠN LƯU TRÚ</span>
+            <div class="hidden sm:block mt-0.5 bg-brand-900/85 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+              <span class="text-[8px] uppercase font-extrabold tracking-wider text-emerald-400">KHÁCH SẠN LƯU TRÚ</span>
             </div>
           </div>
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-emerald-500 pointer-events-none z-50">
@@ -286,16 +368,16 @@
         <!-- 🍜 MEE THAI -->
         <div 
           id="item-meethai" 
-          class="callout-item absolute top-[36%] sm:top-[44%] left-[68%] sm:left-[72%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
+          class="callout-item absolute top-[36%] sm:top-[47%] left-[68%] sm:left-[70%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
           onclick="highlightCallout('meethai')" onmouseenter="highlightCallout('meethai')"
         >
           <div class="relative flex flex-col items-start cursor-pointer transition hover:scale-105 active:scale-95">
-            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-rose-500 shadow-xl flex items-center space-x-1 sm:space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-pulse"></span>
-              <span class="text-xs sm:text-sm font-serif font-bold text-brand-900 whitespace-nowrap">Mee Thai</span>
+            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1 sm:py-1 rounded-full border-2 border-rose-500 shadow-xl flex items-center space-x-1 sm:space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-rose-600 animate-pulse"></span>
+              <span class="text-xs sm:text-[13px] font-serif font-bold text-brand-900 whitespace-nowrap">Mee Thai</span>
             </div>
-            <div class="hidden sm:block mt-1 bg-brand-900/85 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-lg border border-white/20">
-              <span class="text-[9px] uppercase font-extrabold tracking-wider text-rose-400">NHÀ HÀNG ẨM THỰC</span>
+            <div class="hidden sm:block mt-0.5 bg-brand-900/85 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+              <span class="text-[8px] uppercase font-extrabold tracking-wider text-rose-400">NHÀ HÀNG ẨM THỰC</span>
             </div>
           </div>
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-rose-500 pointer-events-none z-50">
@@ -310,16 +392,16 @@
         <!-- 🌳 CÔNG VIÊN NỘI KHU -->
         <div 
           id="item-park" 
-          class="callout-item absolute top-[57%] sm:top-[74%] left-[64%] sm:left-[69%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
+          class="callout-item absolute top-[57%] sm:top-[70%] left-[64%] sm:left-[68%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
           onclick="highlightCallout('park')" onmouseenter="highlightCallout('park')"
         >
           <div class="relative flex flex-col items-start cursor-pointer transition hover:scale-105 active:scale-95">
-            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-lime-600 shadow-xl flex items-center space-x-1 sm:space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-lime-600 animate-pulse"></span>
-              <span class="text-xs sm:text-sm font-serif font-bold text-brand-900 whitespace-nowrap">Công Viên</span>
+            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1 sm:py-1 rounded-full border-2 border-lime-600 shadow-xl flex items-center space-x-1 sm:space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-lime-600 animate-pulse"></span>
+              <span class="text-xs sm:text-[13px] font-serif font-bold text-brand-900 whitespace-nowrap">Công Viên</span>
             </div>
-            <div class="hidden sm:block mt-1 bg-brand-900/85 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-lg border border-white/20">
-              <span class="text-[9px] uppercase font-extrabold tracking-wider text-lime-400">KHÔNG GIAN XANH</span>
+            <div class="hidden sm:block mt-0.5 bg-brand-900/85 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+              <span class="text-[8px] uppercase font-extrabold tracking-wider text-lime-400">KHÔNG GIAN XANH</span>
             </div>
           </div>
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-lime-600 pointer-events-none z-50">
@@ -334,16 +416,16 @@
         <!-- 🛒 CO.OPMART -->
         <div 
           id="item-coop" 
-          class="callout-item absolute top-[82%] sm:top-[90%] left-[78%] sm:left-[76%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
+          class="callout-item absolute top-[82%] sm:top-[84.5%] left-[78%] sm:left-[71%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
           onclick="highlightCallout('coop')" onmouseenter="highlightCallout('coop')"
         >
           <div class="relative flex flex-col items-start cursor-pointer transition hover:scale-105 active:scale-95">
-            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-red-500 shadow-xl flex items-center space-x-1 sm:space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-red-600 animate-pulse"></span>
-              <span class="text-xs sm:text-sm font-serif font-bold text-brand-900 whitespace-nowrap">1. Co.opmart</span>
+            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1 sm:py-1 rounded-full border-2 border-red-500 shadow-xl flex items-center space-x-1 sm:space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+              <span class="text-xs sm:text-[13px] font-serif font-bold text-brand-900 whitespace-nowrap">1. Co.opmart</span>
             </div>
-            <div class="hidden sm:block mt-1 bg-brand-900/85 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-lg border border-white/20">
-              <span class="text-[9px] uppercase font-extrabold tracking-wider text-red-400">SIÊU THỊ TIÊU DÙNG</span>
+            <div class="hidden sm:block mt-0.5 bg-brand-900/85 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+              <span class="text-[8px] uppercase font-extrabold tracking-wider text-red-400">SIÊU THỊ TIÊU DÙNG</span>
             </div>
           </div>
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-red-500 pointer-events-none z-50">
@@ -358,16 +440,16 @@
         <!-- 🛍️ BCONS MALL -->
         <div 
           id="item-mall" 
-          class="callout-item absolute top-[60%] sm:top-[79%] left-[45%] sm:left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
+          class="callout-item absolute top-[60%] sm:top-[75.5%] left-[45%] sm:left-[51%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
           onclick="highlightCallout('mall')" onmouseenter="highlightCallout('mall')"
         >
           <div class="relative flex flex-col items-start cursor-pointer transition hover:scale-105 active:scale-95">
-            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-amber-500 shadow-xl flex items-center space-x-1 sm:space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-amber-600 animate-pulse"></span>
-              <span class="text-xs sm:text-sm font-serif font-bold text-brand-900 whitespace-nowrap">4. Bcons Mall</span>
+            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1 sm:py-1 rounded-full border-2 border-amber-500 shadow-xl flex items-center space-x-1 sm:space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-600 animate-pulse"></span>
+              <span class="text-xs sm:text-[13px] font-serif font-bold text-brand-900 whitespace-nowrap">4. Bcons Mall</span>
             </div>
-            <div class="hidden sm:block mt-1 bg-brand-900/85 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-lg border border-white/20">
-              <span class="text-[9px] uppercase font-extrabold tracking-wider text-amber-400">TTTM 3 TẦNG</span>
+            <div class="hidden sm:block mt-0.5 bg-brand-900/85 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+              <span class="text-[8px] uppercase font-extrabold tracking-wider text-amber-400">TTTM 3 TẦNG</span>
             </div>
           </div>
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-amber-500 pointer-events-none z-50">
@@ -382,16 +464,16 @@
         <!-- 🏪 GS25 (24/7) -->
         <div 
           id="item-gs25" 
-          class="callout-item absolute top-[44%] sm:top-[62%] left-[26%] sm:left-[41%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
+          class="callout-item absolute top-[44%] sm:top-[62%] left-[26%] sm:left-[41.5%] transform -translate-x-1/2 -translate-y-1/2 z-30 group transition-all duration-300"
           onclick="highlightCallout('gs25')" onmouseenter="highlightCallout('gs25')"
         >
           <div class="relative flex flex-col items-start cursor-pointer transition hover:scale-105 active:scale-95">
-            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full border-2 border-sky-500 shadow-xl flex items-center space-x-1 sm:space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-pulse"></span>
-              <span class="text-xs sm:text-sm font-serif font-bold text-brand-900 whitespace-nowrap">3. GS25 (24/7)</span>
+            <div class="relative bg-white/95 backdrop-blur-md px-2.5 sm:px-3.5 py-1 sm:py-1 rounded-full border-2 border-sky-500 shadow-xl flex items-center space-x-1 sm:space-x-1.5">
+              <span class="w-2 h-2 rounded-full bg-sky-600 animate-pulse"></span>
+              <span class="text-xs sm:text-[13px] font-serif font-bold text-brand-900 whitespace-nowrap">3. GS25 (24/7)</span>
             </div>
-            <div class="hidden sm:block mt-1 bg-brand-900/85 backdrop-blur-sm px-2.5 py-0.5 rounded-full shadow-lg border border-white/20">
-              <span class="text-[9px] uppercase font-extrabold tracking-wider text-sky-400">CỬA HÀNG TIỆN LỢI</span>
+            <div class="hidden sm:block mt-0.5 bg-brand-900/85 backdrop-blur-sm px-2 py-0.5 rounded-full shadow-lg border border-white/20">
+              <span class="text-[8px] uppercase font-extrabold tracking-wider text-sky-400">CỬA HÀNG TIỆN LỢI</span>
             </div>
           </div>
           <div class="callout-popup absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 hidden group-hover:block opacity-0 group-hover:opacity-100 transition duration-300 w-64 bg-white/95 backdrop-blur-md p-2.5 rounded-2xl shadow-2xl border-2 border-sky-500 pointer-events-none z-50">
@@ -415,7 +497,7 @@
 
       </div>
 
-      <!-- ==================== CỤM CAROUSEL TIỆN ÍCH CHI TIẾT ==================== -->
+      <!-- ==================== CỤM CAROUSEL INFINITE AUTO-SCROLL ==================== -->
       <div class="mt-10 sm:mt-14 space-y-10 sm:space-y-14">
         
         <!-- 1. CAROUSEL HỒ BƠI & PHÒNG GYM -->
@@ -429,17 +511,17 @@
             </div>
             
             <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="slideCarousel('carousel-pool', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="slideCarousel('carousel-pool', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+              <button onclick="manualSlide('carousel-pool', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="manualSlide('carousel-pool', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-pool" class="carousel-container flex gap-3 overflow-x-auto no-scrollbar">
-                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+              <div id="carousel-pool" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="2500">
+                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/gym-pool/pool-1.jpg" alt="Hồ bơi Bcons City - Góc 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/gym-pool/pool-2.jpg" alt="Hồ bơi Bcons City - Góc 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/gym-pool/pool-3.jpg" alt="Hồ bơi Bcons City - Góc 3" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
                 </div>
               </div>
@@ -455,17 +537,17 @@
             </div>
             
             <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="slideCarousel('carousel-gym', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="slideCarousel('carousel-gym', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+              <button onclick="manualSlide('carousel-gym', -1)" class="carousel-nav-btn absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="manualSlide('carousel-gym', 1)" class="carousel-nav-btn absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 sm:w-10 h-8 sm:h-10 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-lg sm:text-xl transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-gym" class="carousel-container flex gap-3 overflow-x-auto no-scrollbar">
-                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+              <div id="carousel-gym" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="2700">
+                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/gym-pool/gym-1.png" alt="Phòng Gym Bcons City - Không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/gym-pool/gym-2.png" alt="Phòng Gym Bcons City - Không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[16/10] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full sm:w-[85%] aspect-[16/10] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/gym-pool/gym-3.png" alt="Phòng Gym Bcons City - Thiết bị tập" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition duration-500" onclick="openLightbox(this.src, this.alt)">
                 </div>
               </div>
@@ -484,20 +566,20 @@
             </div>
             
             <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="slideCarousel('carousel-meethai', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="slideCarousel('carousel-meethai', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+              <button onclick="manualSlide('carousel-meethai', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="manualSlide('carousel-meethai', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-meethai" class="carousel-container flex gap-2 overflow-x-auto no-scrollbar">
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+              <div id="carousel-meethai" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="2900">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mee-thai/mee-thai-1.png" alt="Mee Thai không gian 1" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mee-thai/mee-thai-2.png" alt="Mee Thai không gian 2" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mee-thai/mee-thai-3.jpg" alt="Mee Thai món ăn" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mee-thai/mee-thai-4.jpg" alt="Mee Thai bài trí" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
               </div>
@@ -512,17 +594,17 @@
             </div>
             
             <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="slideCarousel('carousel-mall', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="slideCarousel('carousel-mall', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+              <button onclick="manualSlide('carousel-mall', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="manualSlide('carousel-mall', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-mall" class="carousel-container flex gap-2 overflow-x-auto no-scrollbar">
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+              <div id="carousel-mall" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="3100">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mall/mall-1.jpg" alt="Bcons Mall - Mặt tiền sảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mall/mall-2.jpg" alt="Bcons Mall - Khu mua sắm" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/mall/mall-3.jpg" alt="Bcons Mall - Hành lang thương mại" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
               </div>
@@ -537,17 +619,17 @@
             </div>
             
             <div class="relative group/box overflow-hidden rounded-xl">
-              <button onclick="slideCarousel('carousel-park', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
-              <button onclick="slideCarousel('carousel-park', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
+              <button onclick="manualSlide('carousel-park', -1)" class="carousel-nav-btn absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">‹</button>
+              <button onclick="manualSlide('carousel-park', 1)" class="carousel-nav-btn absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-black/40 hover:bg-black/70 backdrop-blur-md text-white flex items-center justify-center text-base transition shadow-lg opacity-80 group-hover/box:opacity-100">›</button>
 
-              <div id="carousel-park" class="carousel-container flex gap-2 overflow-x-auto no-scrollbar">
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+              <div id="carousel-park" class="carousel-container no-scrollbar auto-infinite-carousel" data-speed="3300">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/park/park-1.jpg" alt="Công viên xanh - Góc dạo bộ" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/park/park-2.jpg" alt="Công viên xanh - Cụm tiểu cảnh" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
-                <div class="carousel-slide w-full aspect-[4/3] overflow-hidden relative flex-shrink-0">
+                <div class="carousel-slide w-full aspect-[4/3] rounded-xl overflow-hidden relative flex-shrink-0">
                   <img src="assets/park/park-3.jpg" alt="Công viên xanh - Ghế nghỉ thư thái" class="w-full h-full object-cover lightbox-trigger hover:scale-105 transition" onclick="openLightbox(this.src, this.alt)">
                 </div>
               </div>
@@ -561,7 +643,7 @@
     </div>
   </section>
 
-  <!-- ==================== CĂN HỘ 1: FAMILY (ĐỦ 5 ẢNH 1, 2, 4, 5, 6) ==================== -->
+  <!-- ==================== CĂN HỘ 1: FAMILY (ĐỦ 5 ẢNH) ==================== -->
   <section id="can-ho-family" class="py-12 sm:py-18 md:py-24 bg-brand-100/50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       
@@ -608,7 +690,6 @@
 
         <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 (fam-1, fam-2, fam-5, fam-6) -->
         <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
-          <!-- Ảnh fam-1.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/fam/fam-1.png" 
@@ -620,7 +701,6 @@
               <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">1. Giường Đôi Êm Ái</h4>
             </div>
           </div>
-          <!-- Ảnh fam-2.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/fam/fam-2.png" 
@@ -632,7 +712,6 @@
               <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">2. Giường Đơn Riêng</h4>
             </div>
           </div>
-          <!-- Ảnh fam-5.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/fam/fam-5.png" 
@@ -644,7 +723,6 @@
               <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">3. Bếp Nấu Chữ L</h4>
             </div>
           </div>
-          <!-- Ảnh fam-6.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/fam/fam-6.png" 
@@ -702,7 +780,7 @@
         </div>
       </div>
 
-      <!-- KHU VỰC NHÀ TẮM TIÊU BIỂU (fam-6.png) -->
+      <!-- KHU VỰC NHÀ TẮM TIÊU BIỂU -->
       <div class="mt-6 sm:mt-10 bg-brand-100/70 p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl border border-brand-200/90 custom-shadow">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
           <div class="md:col-span-7">
@@ -742,7 +820,7 @@
     </div>
   </section>
 
-  <!-- ==================== CĂN HỘ 2: TRIPLE (ĐỦ 5 ẢNH 1, 2, 4, 5, 6) ==================== -->
+  <!-- ==================== CĂN HỘ 2: TRIPLE (ĐỦ 5 ẢNH) ==================== -->
   <section id="can-ho-triple" class="py-12 sm:py-18 md:py-24 bg-brand-50 border-t border-brand-200/70">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-12">
       
@@ -789,7 +867,6 @@
 
         <!-- 4 ẢNH VỆ TINH LƯỚI 2x2 (trip-2, trip-4, trip-5, trip-6) -->
         <div class="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-4">
-          <!-- Ảnh trip-2.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/trip/trip-2.png" 
@@ -801,7 +878,6 @@
               <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">1. Dãy 3 Giường Ngủ</h4>
             </div>
           </div>
-          <!-- Ảnh trip-4.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/trip/trip-4.png" 
@@ -813,7 +889,6 @@
               <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">2. Bàn Trà / Đọc Sách</h4>
             </div>
           </div>
-          <!-- Ảnh trip-5.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/trip/trip-5.png" 
@@ -825,7 +900,6 @@
               <h4 class="font-serif font-semibold text-[11px] sm:text-xs text-brand-900 truncate">3. Bếp & Lavabo Riêng</h4>
             </div>
           </div>
-          <!-- Ảnh trip-6.png -->
           <div class="rounded-xl overflow-hidden border border-brand-200 custom-shadow bg-brand-50 group">
             <img 
               src="assets/trip/trip-6.png" 
@@ -1025,7 +1099,6 @@
       <!-- HÀNG 5 THẺ ẢNH THỰC TẾ CHI TIẾT -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-4.5 w-full">
         
-        <!-- THẺ 1: BV HOÀN MỸ THỦ ĐỨC -->
         <div 
           id="card-hospital" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-emerald-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1043,7 +1116,6 @@
           </div>
         </div>
 
-        <!-- THẺ 2: CHỢ DÂN SINH ĐÔNG HÒA -->
         <div 
           id="card-market" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-amber-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1064,7 +1136,6 @@
           </div>
         </div>
 
-        <!-- THẺ 3: NHÀ THỜ ĐÔNG HÒA -->
         <div 
           id="card-church" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-purple-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1082,7 +1153,6 @@
           </div>
         </div>
 
-        <!-- THẺ 4: CHÙA THIÊN QUANG -->
         <div 
           id="card-pagoda" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-amber-600 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1100,7 +1170,6 @@
           </div>
         </div>
 
-        <!-- THẺ 5: GA METRO BẾN THÀNH - SUỐI TIÊN -->
         <div 
           id="card-metro" 
           class="map-info-card bg-white p-3 rounded-2xl border-2 border-transparent hover:border-sky-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer group"
@@ -1164,18 +1233,76 @@
     </div>
   </div>
 
-  <!-- ==================== JAVASCRIPT ==================== -->
+  <!-- ==================== JAVASCRIPT: AUTO INFINITE CAROUSEL & EXPORT PDF ==================== -->
   <script>
-    // Hàm trượt carousel
-    function slideCarousel(id, direction) {
+    // 1. KHỞI TẠO CAROUSEL AUTO-SCROLL INFINITE VÔ HẠN
+    const carouselTimers = {};
+
+    function initInfiniteCarousels() {
+      const carousels = document.querySelectorAll('.auto-infinite-carousel');
+      
+      carousels.forEach((carousel) => {
+        const id = carousel.id;
+        const originalChildren = Array.from(carousel.children);
+        
+        // Clone các slide để tạo chu kỳ vòng lặp vô hạn
+        originalChildren.forEach(child => {
+          const clone = child.cloneNode(true);
+          clone.classList.add('clone-slide');
+          carousel.appendChild(clone);
+        });
+
+        const speed = parseInt(carousel.getAttribute('data-speed')) || 2800;
+
+        function runAutoScroll() {
+          carouselTimers[id] = setInterval(() => {
+            const singleSlideWidth = originalChildren[0].offsetWidth + 12;
+            const maxOriginalWidth = singleSlideWidth * originalChildren.length;
+
+            if (carousel.scrollLeft >= maxOriginalWidth) {
+              carousel.scrollLeft = 0;
+            }
+            carousel.scrollBy({ left: singleSlideWidth, behavior: 'smooth' });
+          }, speed);
+        }
+
+        runAutoScroll();
+
+        carousel.addEventListener('mouseenter', () => clearInterval(carouselTimers[id]));
+        carousel.addEventListener('mouseleave', () => runAutoScroll());
+        carousel.addEventListener('touchstart', () => clearInterval(carouselTimers[id]), { passive: true });
+        carousel.addEventListener('touchend', () => runAutoScroll());
+      });
+    }
+
+    function manualSlide(id, direction) {
       const container = document.getElementById(id);
       if (container) {
-        const slideWidth = container.firstElementChild.clientWidth + 12;
+        clearInterval(carouselTimers[id]);
+        const slideWidth = container.firstElementChild.offsetWidth + 12;
         container.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
       }
     }
 
-    // Đổi view Căn hộ
+    // 2. CHẾ ĐỘ XUẤT BẢN PDF LONG PAGE HIỂN THỊ 100% HÌNH ẢNH
+    function preparePdfExport() {
+      const body = document.body;
+      const isExporting = body.classList.toggle('pdf-export-mode');
+
+      if (isExporting) {
+        Object.keys(carouselTimers).forEach(key => clearInterval(carouselTimers[key]));
+        
+        alert("Đã chuyển sang chế độ Long-Page: Toàn bộ ảnh căn hộ và tiện ích đã được trải phẳng 100%. Bạn có thể dùng tiện ích GoFullPage hoặc chọn In (Save as PDF) ngay bây giờ.");
+        
+        setTimeout(() => {
+          window.print();
+        }, 300);
+      } else {
+        location.reload();
+      }
+    }
+
+    // 3. ĐIỀU KHIỂN TAB CĂN HỘ
     function switchView(room, mode) {
       document.getElementById('view-' + room + '-real').classList.add('hidden');
       document.getElementById('view-' + room + '-3d').classList.add('hidden');
@@ -1195,7 +1322,7 @@
       activeBtn.classList.remove('bg-brand-50', 'text-brand-900');
     }
 
-    // Callout Tiện ích
+    // 4. CALLOUT TIỆN ÍCH & TIA DẪN
     const calloutData = {
       hotel: { title: '2. Khách Sạn Bcons City', img: 'assets/4.png', desc: 'Sảnh lễ tân đón tiếp sang trọng, thang máy thẻ từ riêng biệt và an ninh 24/7.' },
       meethai: { title: 'Nhà Hàng Mee Thai', img: 'assets/mee-thai/mee-thai-1.png', desc: 'Hương vị ẩm thực Thái Lan chuẩn vị, ấm cúng ngay trong nội khu.' },
@@ -1244,7 +1371,7 @@
       }
     }
 
-    // Bản đồ ghim
+    // 5. BẢN ĐỒ LIÊN VÙNG
     function highlightPin(id) {
       resetPins();
       const targetPin = document.getElementById('pin-' + id);
@@ -1277,7 +1404,7 @@
       }
     }
 
-    // Lightbox modal
+    // 6. LIGHTBOX MODAL
     function openLightbox(src, alt) {
       const modal = document.getElementById('lightbox-modal');
       const img = document.getElementById('lightbox-img');
@@ -1309,6 +1436,10 @@
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeLightbox();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initInfiniteCarousels();
     });
   </script>
 
