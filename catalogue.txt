@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>BCONS CITY HOTEL - E-Catalogue & Lookbook 16:9</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#FBF9F5',
+              100: '#F4EFE6',
+              200: '#E6D9C5',
+              700: '#8C6D3B',
+              800: '#6E542B',
+              900: '#1C1917',
+              dark: '#121110'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #121110;
+      color: #1C1917;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    /* Khung chuẩn tỷ lệ 16:9 cho từng trang Catalogue */
+    .catalogue-page {
+      width: 100%;
+      max-width: 1100px;
+      aspect-ratio: 16 / 9;
+      background-color: #FBF9F5;
+      margin: 0 auto 24px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    @media (max-width: 768px) {
+      .catalogue-page {
+        aspect-ratio: auto;
+        min-height: calc(100vh - 32px);
+        margin-bottom: 16px;
+        border-radius: 12px;
+      }
+    }
+  </style>
+</head>
+<body class="py-4 md:py-8 px-2 md:px-6">
+
+  <!-- ==================== TRANG 1: COVER (TRANG BÌA CHÍNH) ==================== -->
+  <div class="catalogue-page justify-between p-6 sm:p-10 md:p-14 relative text-white">
+    <img src="assets/4.png" alt="Bcons City Hotel Cover" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/60 to-brand-dark/30"></div>
+
+    <div class="relative z-10 flex justify-between items-center border-b border-white/20 pb-4">
+      <img src="assets/logo.png" alt="Logo" class="h-8 md:h-12 w-auto object-contain brightness-0 invert">
+      <span class="text-[10px] md:text-xs font-semibold tracking-widest uppercase text-brand-200">LOOKBOOK & CATALOGUE 2026</span>
+    </div>
+
+    <div class="relative z-10 max-w-2xl my-auto py-8">
+      <span class="inline-block px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] md:text-xs tracking-widest uppercase text-brand-200 mb-3">
+        Chốn An Cư & Lưu Trú Dài Hạn
+      </span>
+      <h1 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-white tracking-tight leading-tight">
+        Bcons City Hotel
+      </h1>
+      <p class="mt-3 text-xs sm:text-sm md:text-base text-white/80 font-light leading-relaxed">
+        Không gian nghỉ dưỡng thanh bình, dịch vụ chuẩn mực kết hợp hệ sinh thái đô thị trọn vẹn dành riêng cho kiều bào và gia đình đa thế hệ.
+      </p>
+    </div>
+
+    <div class="relative z-10 flex justify-between items-center text-[10px] md:text-xs text-white/60 border-t border-white/20 pt-3">
+      <span>Đường Thống Nhất, TP. Dĩ An</span>
+      <span>01 / 10</span>
+    </div>
+  </div>
+
+  <!-- ==================== TRANG 2: TỔNG QUAN ĐÔ THỊ BCONS CITY ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-50">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">01. QUY HOẠCH ĐỒNG BỘ</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">02 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+      <div class="md:col-span-4">
+        <h2 class="text-2xl md:text-4xl font-serif font-bold text-brand-900 leading-snug">
+          Quần Thể Đô Thị Xanh Hiện Hữu
+        </h2>
+        <p class="mt-3 text-xs md:text-sm text-brand-900/75 leading-relaxed">
+          Tọa lạc ngay mặt tiền đại lộ Thống Nhất rộng thoáng, Bcons City tích hợp trọn vẹn hệ tiện ích khép kín: Tháp khách sạn, TTTM 3 tầng, siêu thị Co.opmart, cửa hàng GS25 24/7 và nhà hàng ẩm thực ngay thềm nhà.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-2 text-[10px] md:text-xs font-semibold">
+          <span class="px-2.5 py-1 rounded bg-brand-100 text-brand-800">✓ Siêu thị Co.opmart</span>
+          <span class="px-2.5 py-1 rounded bg-brand-100 text-brand-800">✓ TTTM Bcons Mall</span>
+          <span class="px-2.5 py-1 rounded bg-brand-100 text-brand-800">✓ Ẩm thực Mee Thai</span>
+        </div>
+      </div>
+      <div class="md:col-span-8 rounded-xl overflow-hidden shadow-lg border border-brand-200 h-[220px] sm:h-[300px] md:h-[340px]">
+        <img src="assets/toan-khu.png" alt="Toàn cảnh Bcons City" class="w-full h-full object-cover">
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Bcons City Hotel • Phân khu đô thị trung tâm</div>
+  </div>
+
+  <!-- ==================== TRANG 3: TIỆN ÍCH DƯỠNG SINH - HỒ BƠI & GYM ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-50">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">02. TIỆN ÍCH DƯỠNG SINH</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">03 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto">
+      <!-- Cụm Hồ Bơi -->
+      <div class="flex flex-col justify-between">
+        <div>
+          <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-900">Hồ Bơi Tràn Bờ Mặt Nước Xanh</h3>
+          <p class="text-xs text-brand-900/70 mt-1">Sàn gỗ tắm nắng và ghế nghỉ ngơi thư thái giữa khuôn viên sinh thái trong lành.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-3 h-32 md:h-44">
+          <img src="assets/gym-pool/pool-1.jpg" alt="Pool 1" class="w-full h-full object-cover rounded-lg shadow-sm">
+          <img src="assets/gym-pool/pool-2.jpg" alt="Pool 2" class="w-full h-full object-cover rounded-lg shadow-sm">
+          <img src="assets/gym-pool/pool-3.jpg" alt="Pool 3" class="w-full h-full object-cover rounded-lg shadow-sm">
+        </div>
+      </div>
+
+      <!-- Cụm Gym -->
+      <div class="flex flex-col justify-between">
+        <div>
+          <h3 class="text-xl md:text-2xl font-serif font-bold text-brand-900">Phòng Gym Đa Năng</h3>
+          <p class="text-xs text-brand-900/70 mt-1">Thiết bị tập thể lực hiện đại, tầm nhìn thoáng rộng phục vụ việc duy trì sự dẻo dai mỗi ngày.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mt-3 h-32 md:h-44">
+          <img src="assets/gym-pool/gym-1.png" alt="Gym 1" class="w-full h-full object-cover rounded-lg shadow-sm">
+          <img src="assets/gym-pool/gym-2.png" alt="Gym 2" class="w-full h-full object-cover rounded-lg shadow-sm">
+          <img src="assets/gym-pool/gym-3.png" alt="Gym 3" class="w-full h-full object-cover rounded-lg shadow-sm">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Không gian phục hồi năng lượng và chăm sóc thể chất</div>
+  </div>
+
+  <!-- ==================== TRANG 4: MUA SẮM, ẨM THỰC & KHÔNG GIAN XANH ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-50">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">03. NHỊP SỐNG TIỆN NGHI</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">04 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-auto">
+      <!-- Mee Thai -->
+      <div class="bg-white p-3 rounded-xl border border-brand-200/80 shadow-sm flex flex-col justify-between">
+        <div>
+          <span class="text-[9px] uppercase font-bold text-rose-600">Ẩm Thực</span>
+          <h4 class="font-serif font-bold text-base text-brand-900">Nhà Hàng Mee Thai</h4>
+          <p class="text-[11px] text-brand-900/70 mt-0.5 leading-snug">Hương vị chuẩn vị, không gian ấm cúng cho bữa cơm gia đình.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5 mt-3 h-20 md:h-28">
+          <img src="assets/mee-thai/mee-thai-2.png" alt="Mee Thai" class="w-full h-full object-cover rounded">
+          <img src="assets/mee-thai/mee-thai-3.jpg" alt="Mee Thai" class="w-full h-full object-cover rounded">
+          <img src="assets/mee-thai/mee-thai-4.jpg" alt="Mee Thai" class="w-full h-full object-cover rounded">
+        </div>
+      </div>
+
+      <!-- Bcons Mall -->
+      <div class="bg-white p-3 rounded-xl border border-brand-200/80 shadow-sm flex flex-col justify-between">
+        <div>
+          <span class="text-[9px] uppercase font-bold text-amber-600">Thương Mại</span>
+          <h4 class="font-serif font-bold text-base text-brand-900">TTTM Bcons Mall</h4>
+          <p class="text-[11px] text-brand-900/70 mt-0.5 leading-snug">3 tầng mua sắm, cà phê, nhà hàng và giải trí hiện đại.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5 mt-3 h-20 md:h-28">
+          <img src="assets/mall/mall-1.jpg" alt="Mall" class="w-full h-full object-cover rounded">
+          <img src="assets/mall/mall-2.jpg" alt="Mall" class="w-full h-full object-cover rounded">
+          <img src="assets/mall/mall-3.jpg" alt="Mall" class="w-full h-full object-cover rounded">
+        </div>
+      </div>
+
+      <!-- Công Viên -->
+      <div class="bg-white p-3 rounded-xl border border-brand-200/80 shadow-sm flex flex-col justify-between">
+        <div>
+          <span class="text-[9px] uppercase font-bold text-lime-700">Sinh Thái</span>
+          <h4 class="font-serif font-bold text-base text-brand-900">Công Viên Cây Xanh</h4>
+          <p class="text-[11px] text-brand-900/70 mt-0.5 leading-snug">Lối dạo bộ rợp bóng cây, ghế đá nghỉ ngơi thư thái mỗi sáng sớm.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5 mt-3 h-20 md:h-28">
+          <img src="assets/park/park-1.jpg" alt="Park" class="w-full h-full object-cover rounded">
+          <img src="assets/park/park-2.jpg" alt="Park" class="w-full h-full object-cover rounded">
+          <img src="assets/park/park-3.jpg" alt="Park" class="w-full h-full object-cover rounded">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Đáp ứng mọi nhu cầu sinh hoạt chỉ trong vài bước chân</div>
+  </div>
+
+  <!-- ==================== TRANG 5: CĂN HỘ FAMILY - KHÔNG GIAN NGHỈ DƯỠNG ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-100/60">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">04. CĂN HỘ LƯU TRÚ DÀI HẠN</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">05 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+      <div class="md:col-span-5">
+        <span class="text-xs uppercase tracking-widest text-brand-700 font-semibold">Gia Đình Nhiều Thế Hệ</span>
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-brand-900 mt-1">Căn Hộ Family</h2>
+        <p class="text-xs text-brand-900/75 mt-2 leading-relaxed">
+          Được bố trí <strong>1 giường đôi & 1 giường đơn</strong> cao cấp, mặt sàn bằng phẳng tuyệt đối không gờ bậc, khu vực bếp và bàn ăn riêng biệt mang đến sự ấm cúng như ở chính tổ ấm thân quen.
+        </p>
+        <div class="grid grid-cols-2 gap-2 mt-4 text-[11px] text-brand-900 font-medium">
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ 1 Giường Đôi & 1 Giường Đơn</div>
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ Sàn chống trơn trượt</div>
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ Bếp khép kín tiện nghi</div>
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ Vách kính tắm đứng</div>
+        </div>
+      </div>
+      
+      <div class="md:col-span-7 grid grid-cols-12 gap-2.5 h-[240px] sm:h-[300px]">
+        <div class="col-span-7 rounded-xl overflow-hidden shadow-md">
+          <img src="assets/fam/fam-4.png" alt="Family Room" class="w-full h-full object-cover">
+        </div>
+        <div class="col-span-5 grid grid-rows-2 gap-2.5">
+          <img src="assets/fam/fam-1.png" alt="Fam 1" class="w-full h-full object-cover rounded-xl shadow-sm">
+          <img src="assets/fam/fam-5.png" alt="Fam 5" class="w-full h-full object-cover rounded-xl shadow-sm">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Bcons City Hotel • Căn hộ Family tiêu chuẩn cao cấp</div>
+  </div>
+
+  <!-- ==================== TRANG 6: CĂN HỘ FAMILY - CHI TIẾT 3D & PHÒNG TẮM AN TOÀN ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-50">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">05. THIẾT KẾ & AN TOÀN CAO CẤP</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">06 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+      <!-- Mặt bằng 3D -->
+      <div class="md:col-span-6 bg-white p-3 rounded-2xl border border-brand-200 shadow-sm flex flex-col justify-between h-[260px] md:h-[310px]">
+        <div class="h-[180px] md:h-[220px] rounded-xl overflow-hidden bg-brand-50">
+          <img src="assets/fam/layout-3d-fam.png" alt="3D Layout Family" class="w-full h-full object-contain">
+        </div>
+        <div class="text-center pt-2">
+          <h4 class="font-serif font-bold text-xs md:text-sm text-brand-900">Bản Vẽ Phối Cảnh 3D Căn Hộ Family</h4>
+          <p class="text-[10px] text-brand-900/60">Quy hoạch vuông vức, thông gió tự nhiên</p>
+        </div>
+      </div>
+
+      <!-- Khối Phòng Tắm -->
+      <div class="md:col-span-6 flex gap-4 bg-brand-100/70 p-4 rounded-2xl border border-brand-200 shadow-sm h-[260px] md:h-[310px] items-center">
+        <div class="w-1/2 h-full rounded-xl overflow-hidden shadow">
+          <img src="assets/fam/fam-6.png" alt="Phòng tắm an toàn" class="w-full h-full object-cover">
+        </div>
+        <div class="w-1/2 flex flex-col justify-center">
+          <span class="text-[10px] uppercase font-bold text-brand-700">Tiêu Chuẩn Cho Người Lớn Tuổi</span>
+          <h3 class="font-serif font-bold text-base md:text-xl text-brand-900 mt-1 leading-snug">Phòng Tắm Phân Khu Ướt - Khô</h3>
+          <ul class="text-[10px] md:text-xs text-brand-900/80 mt-2 space-y-1.5">
+            <li>• Sàn gạch nhám chống trơn trượt</li>
+            <li>• Vách kính ngăn nước tuyệt đối</li>
+            <li>• Nước nóng trực tiếp & hút mùi</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Chi tiết kiến trúc và công năng an dưỡng</div>
+  </div>
+
+  <!-- ==================== TRANG 7: CĂN HỘ TRIPLE (3 GIƯỜNG ĐƠN) ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-100/60">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">06. CĂN HỘ LINH HOẠT THÀNH VIÊN</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">07 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+      <div class="md:col-span-5">
+        <span class="text-xs uppercase tracking-widest text-brand-700 font-semibold">Không Gian Mở Đón Sáng</span>
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-brand-900 mt-1">Căn Hộ Triple</h2>
+        <p class="text-xs text-brand-900/75 mt-2 leading-relaxed">
+          Thiết kế đặc biệt với <strong>dãy 3 giường đơn</strong> đặt cạnh cửa sổ lớn tràn ngập ánh sáng tự nhiên. Đi kèm góc bàn đọc sách thư thái và bếp ăn tiện lợi cho kỳ lưu trú dài ngày.
+        </p>
+        <div class="grid grid-cols-2 gap-2 mt-4 text-[11px] text-brand-900 font-medium">
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ 3 Giường Đơn Rộng Rãi</div>
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ Bàn đọc sách đón sáng</div>
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ Tủ lạnh & Bếp riêng biệt</div>
+          <div class="bg-white/80 p-2 rounded border border-brand-200/60">✓ Tủ đồ âm tường lớn</div>
+        </div>
+      </div>
+      
+      <div class="md:col-span-7 grid grid-cols-12 gap-2.5 h-[240px] sm:h-[300px]">
+        <div class="col-span-7 rounded-xl overflow-hidden shadow-md">
+          <img src="assets/trip/trip-1.png" alt="Triple Room" class="w-full h-full object-cover">
+        </div>
+        <div class="col-span-5 grid grid-rows-2 gap-2.5">
+          <img src="assets/trip/trip-4.png" alt="Trip 4" class="w-full h-full object-cover rounded-xl shadow-sm">
+          <img src="assets/trip/trip-5.png" alt="Trip 5" class="w-full h-full object-cover rounded-xl shadow-sm">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Bcons City Hotel • Căn hộ Triple linh hoạt</div>
+  </div>
+
+  <!-- ==================== TRANG 8: CĂN HỘ TRIPLE - BẢN VẼ 3D & CHI TIẾT ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-50">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">07. BỐ CỤC KHÔNG GIAN TRIPLE</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">08 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+      <!-- 3D Layout -->
+      <div class="md:col-span-6 bg-white p-3 rounded-2xl border border-brand-200 shadow-sm flex flex-col justify-between h-[260px] md:h-[310px]">
+        <div class="h-[180px] md:h-[220px] rounded-xl overflow-hidden bg-brand-50">
+          <img src="assets/trip/layout-3d-trip.png" alt="3D Layout Triple" class="w-full h-full object-contain">
+        </div>
+        <div class="text-center pt-2">
+          <h4 class="font-serif font-bold text-xs md:text-sm text-brand-900">Bản Vẽ Phối Cảnh 3D Căn Hộ Triple</h4>
+          <p class="text-[10px] text-brand-900/60">Sắp xếp khoa học, lối đi phẳng phiu thuận tiện</p>
+        </div>
+      </div>
+
+      <!-- Ảnh góc chụp thực tế khác -->
+      <div class="md:col-span-6 grid grid-cols-2 gap-3 h-[260px] md:h-[310px]">
+        <div class="bg-white p-2.5 rounded-2xl border border-brand-200 shadow-sm flex flex-col justify-between">
+          <div class="h-36 md:h-44 rounded-xl overflow-hidden">
+            <img src="assets/trip/trip-2.png" alt="Trip 2" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[11px] font-serif font-bold text-brand-900 text-center mt-2">Dãy Giường Đơn Êm Ái</span>
+        </div>
+        <div class="bg-white p-2.5 rounded-2xl border border-brand-200 shadow-sm flex flex-col justify-between">
+          <div class="h-36 md:h-44 rounded-xl overflow-hidden">
+            <img src="assets/trip/trip-6.png" alt="Trip 6" class="w-full h-full object-cover">
+          </div>
+          <span class="text-[11px] font-serif font-bold text-brand-900 text-center mt-2">Phòng Tắm Riêng Biệt</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Chi tiết căn hộ Triple đa năng</div>
+  </div>
+
+  <!-- ==================== TRANG 9: VỊ TRÍ VÀNG & KẾT NỐI LIÊN VÙNG ==================== -->
+  <div class="catalogue-page p-6 sm:p-8 md:p-10 justify-between bg-brand-50">
+    <div class="flex justify-between items-center border-b border-brand-200 pb-3">
+      <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-brand-700">08. MẠNG LƯỚI KẾT NỐI</span>
+      <span class="text-[10px] md:text-xs font-serif font-semibold text-brand-900/60">09 / 10</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 my-auto items-center">
+      <div class="md:col-span-5">
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-brand-900">Tâm Điểm Y Tế, Tôn Giáo & Giao Thông</h2>
+        <p class="text-xs text-brand-900/75 mt-2 leading-relaxed">
+          Tọa lạc tại vị trí vàng ngã ba liên kết vùng, cư dân dễ dàng tiếp cận mọi tiện ích an sinh trong bán kính 2 đến 5 phút di chuyển:
+        </p>
+        <div class="mt-3 space-y-1.5 text-xs text-brand-900">
+          <div class="flex items-center gap-2"><span>🏥</span><strong>BV Quốc Tế Hoàn Mỹ:</strong> 5 phút</div>
+          <div class="flex items-center gap-2"><span>🛍️</span><strong>Chợ truyền thống Đông Hòa:</strong> 2 phút</div>
+          <div class="flex items-center gap-2"><span>⛪</span><strong>Nhà thờ Giáo xứ Đông Hòa:</strong> 3 phút</div>
+          <div class="flex items-center gap-2"><span>🛕</span><strong>Chùa Thiên Quang (Hồ Đá):</strong> 3 phút</div>
+          <div class="flex items-center gap-2"><span>🚇</span><strong>Ga Metro Bến Thành:</strong> 5 phút (30p tới Q1)</div>
+        </div>
+      </div>
+
+      <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div class="rounded-xl overflow-hidden shadow-sm h-28 md:h-40">
+          <img src="assets/location/bv.jpg" alt="BV Hoàn Mỹ" class="w-full h-full object-cover">
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-sm h-28 md:h-40">
+          <img src="assets/location/nha-tho-dong-hoa.jpg" alt="Nhà thờ" class="w-full h-full object-cover">
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-sm h-28 md:h-40">
+          <img src="assets/location/chua-thien-quang.png" alt="Chùa Thiên Quang" class="w-full h-full object-cover">
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-sm h-28 md:h-40">
+          <img src="assets/location/metro.jpg" alt="Metro" class="w-full h-full object-cover">
+        </div>
+      </div>
+    </div>
+
+    <div class="text-[10px] text-brand-900/40 text-right">Mạng lưới tiện ích dân sinh thực tế kề bên</div>
+  </div>
+
+  <!-- ==================== TRANG 10: BACK COVER (LỜI CHÀO & LIÊN HỆ) ==================== -->
+  <div class="catalogue-page p-6 sm:p-10 md:p-14 justify-between bg-brand-900 text-white text-center">
+    <div class="flex justify-between items-center border-b border-brand-800 pb-3 text-white/50 text-[10px] md:text-xs">
+      <span>BCONS CITY HOTEL</span>
+      <span>10 / 10</span>
+    </div>
+
+    <div class="max-w-xl mx-auto my-auto py-6">
+      <img src="assets/logo.png" alt="Logo" class="h-10 md:h-14 w-auto mx-auto mb-4 brightness-0 invert">
+      <h2 class="text-2xl sm:text-4xl md:text-5xl font-serif font-bold text-brand-50 leading-tight">
+        Trân Trọng Kính Chào Quý Khách
+      </h2>
+      <p class="mt-4 text-xs sm:text-sm md:text-base text-brand-50/80 font-light leading-relaxed">
+        Dù là chuyến trở về thăm quê hương hay kỳ an dưỡng dài hạn, Bcons City Hotel luôn sẵn sàng đồng hành mang đến trải nghiệm lưu trú trọn vẹn và an tâm nhất.
+      </p>
+      
+      <div class="mt-6 inline-block bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 text-xs md:text-sm font-semibold text-brand-200">
+        Đại lộ Thống Nhất, Phường Đông Hòa, TP. Dĩ An, Bình Dương
+      </div>
+    </div>
+
+    <div class="border-t border-brand-800 pt-3 text-[10px] md:text-xs text-white/40 flex justify-between">
+      <span>© 2026 Bcons City Hotel</span>
+      <span>Thiết kế cho trình chiếu & xem trên thiết bị di động</span>
+    </div>
+  </div>
+
+</body>
+</html>
